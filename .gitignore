@@ -1,0 +1,7 @@
+deck/node_modules/
+deck/qa/
+deck/unp/
+deck/*.pdf
+deck/min.pptx
+deck/t.txt
+deck/package*.json
