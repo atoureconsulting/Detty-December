@@ -2,9 +2,10 @@
 Turn any portrait into a circular PNG sized for the roster cards.
 
 Usage:
-    1. Drop images into deck/photos/ named after each woman's slug, e.g.
-       olivia-yace.jpg   veena-praveenar.png   isabella-menin.jpeg
-       (run this script with no args to print the exact slug list)
+    1. Drop images into deck/photos/, named either way:
+         by deck position   1.jpg  2.jpg  3.jpg ...  14.jpg
+         or by slug         olivia-yace.jpg  veena-praveenar.png
+       (run this script any time to see which are still missing)
     2. python prep_photos.py
     3. node build.js
 
@@ -30,10 +31,13 @@ EXTS = (".jpg", ".jpeg", ".png", ".webp", ".JPG", ".JPEG", ".PNG", ".WEBP")
 
 
 def find(slug):
-    for e in EXTS:
-        p = os.path.join(SRC, slug + e)
-        if os.path.exists(p):
-            return p
+    """Accept either the slug (olivia-yace.jpg) or the deck position (1.jpg)."""
+    idx = SLUGS.index(slug) + 1
+    for stem in (slug, str(idx), "%02d" % idx):
+        for e in EXTS:
+            p = os.path.join(SRC, stem + e)
+            if os.path.exists(p):
+                return p
     return None
 
 
@@ -66,9 +70,9 @@ def main():
     if done:
         print(f"processed {len(done)}: " + ", ".join(done))
     if missing:
-        print(f"\nstill needed ({len(missing)}) — drop into deck/photos/ as <slug>.jpg:")
+        print(f"\nstill needed ({len(missing)}) — name by slug or by deck position:")
         for m in missing:
-            print("  " + m)
+            print("  %2d.jpg   or   %s.jpg" % (SLUGS.index(m) + 1, m))
     if not done and not os.path.isdir(SRC):
         print(f"\ncreated {SRC} — put images there and re-run.")
     print("\nthen: node build.js")
