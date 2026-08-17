@@ -1,0 +1,634 @@
+<title>Detty December</title>
+<style>
+  :root{
+    --night:#150B13;
+    --night-2:#1F1019;
+    --raise:#271520;
+    --line:#3C2431;
+    --line-2:#4E2F3E;
+    --gold:#D9A940;
+    --gold-dim:#8E6C29;
+    --ivory:#F3E9EE;
+    --soft:#B29AA7;
+    --faint:#8A7280;
+    --ci:#E08A58;
+    --gh:#D96A66;
+    --ng:#77BE8D;
+    --ok:#77BE8D;
+    --wait:#E0B856;
+    --stop:#E2807E;
+    --display:"Didot","Bodoni MT","Hoefler Text","Playfair Display",Georgia,serif;
+    --sans:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--night);color:var(--ivory);
+    font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *{animation:none!important;transition:none!important;}
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+  .narrow{max-width:660px;}
+  h1,h2,h3,h4{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;}
+  a{color:inherit;}
+  .eyebrow{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold);
+  }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:20;background:rgba(21,11,19,.93);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;gap:22px;height:52px;overflow-x:auto;}
+  nav .mark{font-family:var(--display);font-size:16px;letter-spacing:.02em;white-space:nowrap;}
+  nav .mark b{color:var(--gold);font-weight:400;}
+  nav a{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+    text-decoration:none;color:var(--soft);white-space:nowrap;padding:4px 0;
+    border-bottom:1px solid transparent;
+  }
+  nav a:hover,nav a:focus-visible{color:var(--gold);border-bottom-color:var(--gold);outline:none;}
+  nav .sp{margin-left:auto;}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    position:relative;padding:86px 0 62px;overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .rings{position:absolute;inset:0;pointer-events:none;opacity:.5;}
+  .rings i{
+    position:absolute;border:1px solid var(--gold-dim);border-radius:50%;display:block;
+  }
+  .hero h1{
+    font-size:clamp(52px,10.5vw,124px);line-height:.9;letter-spacing:-.015em;margin-top:16px;
+  }
+  .hero h1 em{font-style:italic;color:var(--gold);}
+  .hero .lede{
+    margin-top:26px;max-width:46ch;font-size:16.5px;color:var(--soft);
+  }
+  .hero .meta{
+    margin-top:30px;display:flex;flex-wrap:wrap;gap:10px 26px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  }
+  .hero .meta span{color:var(--faint);}
+  .hero .meta b{color:var(--ivory);font-weight:400;}
+
+  /* festival bill */
+  .bill{
+    margin-top:52px;padding-top:26px;border-top:1px solid var(--line);
+    font-family:var(--display);font-size:clamp(17px,2.5vw,27px);line-height:1.45;
+    color:var(--ivory);
+  }
+  .bill span{white-space:nowrap;}
+  .bill i{color:var(--gold-dim);font-style:normal;padding:0 .35em;}
+  .bill .q{color:var(--faint);font-style:italic;}
+
+  /* ---------- sections ---------- */
+  section{padding:76px 0;border-bottom:1px solid var(--line);}
+  .sec-head{margin-bottom:38px;}
+  .sec-head h2{font-size:clamp(28px,4.2vw,42px);margin-top:10px;line-height:1.08;}
+  .sec-head p{color:var(--soft);max-width:62ch;margin:14px 0 0;font-size:15px;}
+
+  /* status band */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;}
+  .stat{background:var(--night-2);padding:24px 22px;}
+  .stat .n{font-family:var(--display);font-size:40px;color:var(--gold);line-height:1;
+    font-variant-numeric:tabular-nums;}
+  .stat .l{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+    margin-top:12px;color:var(--ivory);}
+  .stat .s{font-size:12.5px;color:var(--faint);margin-top:5px;font-style:italic;}
+
+  .note{
+    margin-top:26px;padding:16px 20px;border:1px solid var(--line-2);border-radius:3px;
+    background:var(--night-2);font-size:14px;color:var(--soft);
+  }
+  .note b{color:var(--ivory);font-weight:600;}
+
+  /* two-col */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+  .panel{background:var(--night-2);border:1px solid var(--line);border-radius:3px;padding:24px;}
+  .panel h4{font-size:11px;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;
+    margin-bottom:16px;}
+  .panel.ok h4{color:var(--ok);}
+  .panel.open h4{color:var(--stop);}
+  .panel ul{margin:0;padding-left:17px;font-size:14px;color:var(--soft);}
+  .panel li{margin-bottom:9px;}
+  .panel li::marker{color:var(--gold-dim);}
+
+  /* ---------- roster ---------- */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px;}
+  .filters button{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+    background:transparent;color:var(--soft);border:1px solid var(--line-2);
+    border-radius:100px;padding:7px 15px;cursor:pointer;
+  }
+  .filters button:hover{color:var(--gold);border-color:var(--gold-dim);}
+  .filters button[aria-pressed="true"]{background:var(--gold);color:var(--night);border-color:var(--gold);}
+  .filters button:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+
+  .roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
+  .who{
+    background:var(--night-2);border:1px solid var(--line);border-radius:3px;
+    padding:24px 22px;display:flex;flex-direction:column;gap:14px;
+  }
+  .who.hide{display:none;}
+  .who-top{display:flex;gap:16px;align-items:flex-start;}
+  .mono-disc{
+    flex:0 0 60px;width:60px;height:60px;border-radius:50%;
+    border:1px solid var(--gold);background:var(--raise);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-size:20px;color:var(--gold);letter-spacing:.02em;
+  }
+  .who h3{font-size:20px;line-height:1.15;}
+  .who .nat{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--faint);margin-top:6px;display:block;}
+  .role{font-size:13.5px;color:var(--soft);}
+  .role b{color:var(--ivory);font-weight:600;}
+
+  .socials{display:flex;flex-wrap:wrap;gap:7px;}
+  .soc{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;
+    border:1px solid var(--line-2);border-radius:2px;padding:4px 8px;color:var(--soft);
+    font-variant-numeric:tabular-nums;
+  }
+  .soc b{color:var(--gold);font-weight:400;}
+  .soc.nil{color:var(--faint);border-style:dashed;}
+
+  .acc{font-size:13px;color:var(--faint);border-top:1px solid var(--line);padding-top:13px;}
+  .acc b{color:var(--soft);font-weight:600;}
+
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:4px;}
+  .tag{
+    font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border-radius:100px;border:1px solid currentColor;
+  }
+  .tag.pend{color:var(--wait);}
+  .tag.flag{color:var(--stop);}
+  .tag.title{color:var(--ok);}
+
+  /* ---------- route ---------- */
+  .legs{display:flex;flex-direction:column;gap:22px;}
+  .leg{background:var(--night-2);border:1px solid var(--line);border-radius:3px;overflow:hidden;}
+  .leg-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;
+    align-items:baseline;gap:14px;flex-wrap:wrap;}
+  .leg-head h3{font-size:27px;}
+  .leg-head .when{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;
+    text-transform:uppercase;}
+  .leg-head .st{margin-left:auto;font-family:var(--mono);font-size:9px;letter-spacing:.11em;
+    text-transform:uppercase;padding:3px 9px;border-radius:100px;border:1px solid currentColor;}
+  .leg[data-c="ci"] h3,.leg[data-c="ci"] .when{color:var(--ci);}
+  .leg[data-c="gh"] h3,.leg[data-c="gh"] .when{color:var(--gh);}
+  .leg[data-c="ng"] h3,.leg[data-c="ng"] .when{color:var(--ng);}
+  .leg-body{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+  .lc{padding:22px 24px;border-right:1px solid var(--line);}
+  .lc:last-child{border-right:none;}
+  .lc h4{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--faint);margin-bottom:14px;}
+  .lc .it{margin-bottom:14px;}
+  .lc .it strong{display:block;font-size:14px;font-weight:600;color:var(--ivory);}
+  .lc .it span{font-size:12.5px;color:var(--faint);}
+  .watch{padding:16px 24px;border-top:1px solid var(--line);background:var(--raise);
+    font-size:13px;color:var(--soft);}
+  .watch b{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--stop);margin-right:10px;}
+
+  /* ---------- next ---------- */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
+  .step{border-top:1px solid var(--gold-dim);padding-top:16px;}
+  .step .k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--gold);}
+  .step h4{font-size:18px;margin:8px 0 7px;}
+  .step p{font-size:13.5px;color:var(--faint);margin:0;}
+
+  .closer{padding:88px 0;text-align:center;}
+  .closer h2{font-size:clamp(26px,4.6vw,44px);line-height:1.14;max-width:17ch;margin:0 auto;}
+  .closer p{color:var(--soft);max-width:52ch;margin:22px auto 0;font-size:15px;}
+
+  footer{padding:34px 0 60px;color:var(--faint);font-size:12px;}
+  footer p{margin:0 0 6px;}
+
+  @media (max-width:760px){
+    .rings{opacity:.22;}
+    .bill{font-size:16px;}
+  }
+  @media (max-width:820px){
+    .cols{grid-template-columns:1fr;}
+    .leg-body{grid-template-columns:1fr;}
+    .lc{border-right:none;border-bottom:1px solid var(--line);}
+    .lc:last-child{border-bottom:none;}
+  }
+</style>
+
+<nav>
+  <div class="wrap">
+    <span class="mark">Detty <b>December</b></span>
+    <a href="#tour" class="sp">The Tour</a>
+    <a href="#lineup">Line-up</a>
+    <a href="#route">Route</a>
+    <a href="#next">What's Next</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="rings" aria-hidden="true">
+    <i style="width:520px;height:520px;right:-130px;top:-120px;"></i>
+    <i style="width:520px;height:520px;right:40px;top:60px;"></i>
+    <i style="width:520px;height:520px;right:-45px;top:240px;"></i>
+  </div>
+  <div class="wrap">
+    <div class="eyebrow">Project Hub · Pending Confirmation</div>
+    <h1>Detty<br><em>December</em></h1>
+    <p class="lede">Fourteen titleholders and public figures across Côte d'Ivoire, Ghana and Nigeria — a pan-African December built around festivals, foundation work and the women carrying it.</p>
+    <div class="meta">
+      <span>Dates <b>26 Dec – 10 Jan</b></span>
+      <span>Countries <b>Three</b></span>
+      <span>Line-up <b>14 invited</b></span>
+      <span>Confirmed <b>None yet</b></span>
+    </div>
+
+    <div class="bill">
+        <span>Olivia Yacé</span>
+      <i>·</i>
+        <span>Veena Praveenar Singh</span>
+      <i>·</i>
+        <span>Isabella Menin</span>
+      <i>·</i>
+        <span>Nadia Mejia</span>
+      <i>·</i>
+        <span>Alicia Aylies</span>
+      <i>·</i>
+        <span>Angélique Angarni-Filopon</span>
+      <i>·</i>
+        <span>Rebecca Biangue</span>
+      <i>·</i>
+        <span>Dorcas Dienda</span>
+      <i>·</i>
+        <span>Ophély Mézino</span>
+      <i>·</i>
+        <span>Nellie Anjaratiana</span>
+      <i>·</i>
+        <span>Sephora Kongo</span>
+      <i>·</i>
+        <span class="q">"Tai"</span>
+      <i>·</i>
+        <span>Khaiza Kuyo</span>
+      <i>·</i>
+        <span>Bella Zabaneh</span>
+      </div>
+  </div>
+</header>
+
+<section id="tour">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">The Tour</div>
+      <h2>What is settled, and what is not</h2>
+      <p>The shape of the trip is real. The thing it is <em>for</em> has not been agreed — and that single answer drives the itinerary, the sponsor pitch and all fourteen individual conversations.</p>
+    </div>
+
+    <div class="cols">
+      <div class="panel ok">
+        <h4>Established</h4>
+        <ul>
+          <li>Three host countries — Côte d'Ivoire, Ghana, Nigeria</li>
+          <li>Arrival in Abidjan 26 December; Mother Africa Festival on the 27th–28th is the opening anchor</li>
+          <li>Roughly 26 December to 10 January, closing in Nigeria</li>
+          <li>An all-female line-up of titleholders and public figures</li>
+          <li>A social-impact action in each country</li>
+          <li>Private jet between legs, vans and Escalades on the ground</li>
+          <li>No plus-ones — talent travel solo</li>
+          <li>An individual call with each woman before anything is signed</li>
+        </ul>
+      </div>
+      <div class="panel open">
+        <h4>Open — to decide with Olivia</h4>
+        <ul>
+          <li>The core purpose: celebration, tourism promotion, philanthropy, or a commercial content property</li>
+          <li>Whose project this is — Olivia and Dorcas's initiative, or the agency's concept they host</li>
+          <li>What "Minister of Enjoyment" means in practice</li>
+          <li>Who funds it, and how the agency is paid</li>
+          <li>Whether the foundation work is core identity or a secondary activation</li>
+          <li>Ghana cities and dates — the one fully open leg</li>
+          <li>Whether New Year's Eve lands in Abidjan or Lagos</li>
+          <li>Whether this is a documented trip or a media property that travels</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="stats" style="margin-top:26px;">
+      <div class="stat"><div class="n">14</div><div class="l">Invited</div><div class="s">none confirmed yet</div></div>
+      <div class="stat"><div class="n">~6.1M</div><div class="l">Instagram reach</div><div class="s">estimated, unverified</div></div>
+      <div class="stat"><div class="n">~1.4M</div><div class="l">TikTok reach</div><div class="s">where an account was found</div></div>
+      <div class="stat"><div class="n">11</div><div class="l">Nationalities</div><div class="s">one still unidentified</div></div>
+    </div>
+
+    <div class="note">
+      <b>On the numbers.</b> Every follower figure on this site is an estimate compiled from public sources — not a live platform reading, and not analytics. Engagement rate and audience demographics are private to each woman's own dashboard and cannot be obtained any other way than by requesting her official media kit. That request is part of the individual calls.
+    </div>
+  </div>
+</section>
+
+<section id="lineup">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">The Line-up</div>
+      <h2>Fourteen women, none yet confirmed</h2>
+      <p>Ordered by Instagram reach. Every profile below was verified against public record — where the original list was wrong, the correction is flagged on the card.</p>
+    </div>
+
+    <div class="filters" role="group" aria-label="Filter the line-up">
+      <button type="button" data-f="all" aria-pressed="true">All 14</button>
+      <button type="button" data-f="title" aria-pressed="false">Titleholders</button>
+      <button type="button" data-f="creator" aria-pressed="false">Creators</button>
+      <button type="button" data-f="flag" aria-pressed="false">Needs resolving</button>
+    </div>
+
+    <div class="roster" id="roster">
+
+      <article class="who" data-k="title">
+        <div class="who-top"><div class="mono-disc">OY</div>
+          <div><h3>Olivia Yacé</h3><span class="nat">Côte d'Ivoire</span></div></div>
+        <p class="role"><b>Miss Côte d'Ivoire 2021.</b> Miss World 2021 second runner-up and Miss World Africa. Miss Universe Côte d'Ivoire 2025 — fourth runner-up, the first Ivorian to reach the Top 5.</p>
+        <div class="socials"><span class="soc">IG <b>~1M</b></span><span class="soc">TikTok <b>~934K</b></span><span class="soc">FB <b>~756K</b></span><span class="soc nil">Snap —</span></div>
+        <p class="acc"><b>Also:</b> Tourism Ambassador of Côte d'Ivoire since 2022 · runs the Fondation Olivia Yacé · already publicly linked to Mother Africa Festival.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag title">Titleholder</span><span class="tag flag">Verify affiliation</span></div>
+      </article>
+
+      <article class="who" data-k="title">
+        <div class="who-top"><div class="mono-disc">VP</div>
+          <div><h3>Veena Praveenar Singh</h3><span class="nat">Thailand</span></div></div>
+        <p class="role"><b>Miss Universe Thailand 2025.</b> First runner-up at Miss Universe 2025, and the first winner of Indian descent for the Thai title.</p>
+        <div class="socials"><span class="soc">IG <b>~2M</b></span><span class="soc">TikTok <b>active</b></span><span class="soc nil">FB unconfirmed</span></div>
+        <p class="acc"><b>Also:</b> cultural and tourism ambassador for Thailand · fluent in Thai, English and Russian.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag title">Titleholder</span><span class="tag flag">Title corrected</span></div>
+      </article>
+
+      <article class="who" data-k="title">
+        <div class="who-top"><div class="mono-disc">IM</div>
+          <div><h3>Isabella Menin</h3><span class="nat">Brazil</span></div></div>
+        <p class="role"><b>Miss Grand International 2022</b> — the first Brazilian ever to win the title.</p>
+        <div class="socials"><span class="soc">IG <b>~1.05M</b></span><span class="soc nil">No other platform found</span></div>
+        <p class="acc"><b>Also:</b> founder of LA Menin Beauty · MSc Finance, UCL · founded Beyond Project, supporting disability organisations in Brazil.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag title">Titleholder</span></div>
+      </article>
+
+      <article class="who" data-k="title">
+        <div class="who-top"><div class="mono-disc">NM</div>
+          <div><h3>Nadia Mejia</h3><span class="nat">Ecuador / USA</span></div></div>
+        <p class="role"><b>Miss Universe Ecuador 2025.</b> Previously Miss California USA 2016, Top 5 and Fan Favourite at Miss USA 2016.</p>
+        <div class="socials"><span class="soc">IG <b>~435K</b></span><span class="soc">TikTok <b>~125K</b></span><span class="soc nil">FB unconfirmed</span></div>
+        <p class="acc"><b>Also:</b> singer and worship leader · daughter of musician Gerardo and Miss West Virginia USA 1989.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag title">Titleholder</span><span class="tag flag">Not the Chilean singer</span></div>
+      </article>
+
+      <article class="who" data-k="title">
+        <div class="who-top"><div class="mono-disc">AA</div>
+          <div><h3>Alicia Aylies</h3><span class="nat">French Guiana</span></div></div>
+        <p class="role"><b>Miss France 2017</b> — the first representative from French Guiana to win.</p>
+        <div class="socials"><span class="soc">IG <b>~423K</b></span><span class="soc">TikTok <b>~148K</b></span><span class="soc">FB <b>~78K</b></span></div>
+        <p class="acc"><b>Also:</b> recording artist — "Mojo", "Abuser", "No Wahala" · Festina ambassador since 2017 · Hugo Boss and Lancaster Beauty campaigns.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag title">Titleholder</span></div>
+      </article>
+
+      <article class="who" data-k="title">
+        <div class="who-top"><div class="mono-disc">AF</div>
+          <div><h3>Angélique Angarni-Filopon</h3><span class="nat">Martinique</span></div></div>
+        <p class="role"><b>Miss France 2025.</b> The first Martinican winner, and at 34 the oldest woman ever crowned.</p>
+        <div class="socials"><span class="soc">IG <b>~395K</b></span><span class="soc nil">No personal TikTok</span><span class="soc nil">FB unconfirmed</span></div>
+        <p class="acc"><b>Also:</b> competing on the 2026 season of French <em>Dancing with the Stars</em> · appeared at Cannes 2025.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag title">Titleholder</span><span class="tag flag">Year corrected</span></div>
+      </article>
+
+      <article class="who" data-k="creator">
+        <div class="who-top"><div class="mono-disc">RB</div>
+          <div><h3>Rebecca Biangue</h3><span class="nat">France</span></div></div>
+        <p class="role"><b>Beauty and lifestyle creator.</b> No pageant title found in public record — Paris-based, makeup and hairstyling content with brand collaboration work.</p>
+        <div class="socials"><span class="soc">IG <b>~220K</b></span><span class="soc">TikTok <b>~43K</b></span><span class="soc">YT <b>~20K</b></span></div>
+        <p class="acc"><b>Note:</b> two similar TikTok handles exist — confirm which is hers before tagging.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag flag">No title found</span></div>
+      </article>
+
+      <article class="who" data-k="title">
+        <div class="who-top"><div class="mono-disc">DD</div>
+          <div><h3>Dorcas Dienda</h3><span class="nat">DR Congo</span></div></div>
+        <p class="role"><b>Miss Africa 2019</b> and <b>Miss Universe DR Congo 2025</b>, appointed in September 2025 after the original national winner was dethroned.</p>
+        <div class="socials"><span class="soc">IG <b>~216K</b></span><span class="soc">TikTok <b>active</b></span><span class="soc nil">FB unconfirmed</span></div>
+        <p class="acc"><b>Also:</b> founder of the Dorcas Dienda Foundation — child nutrition, education access, and women's empowerment through art and fashion mentorship.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag title">Titleholder</span></div>
+      </article>
+
+      <article class="who" data-k="title">
+        <div class="who-top"><div class="mono-disc">OM</div>
+          <div><h3>Ophély Mézino</h3><span class="nat">Guadeloupe</span></div></div>
+        <p class="role"><b>Miss World 2019 first runner-up</b> and Miss World Europe. Miss Guadeloupe 2018, Miss France 2019 first runner-up, Miss Universe Guadeloupe 2025.</p>
+        <div class="socials"><span class="soc">IG <b>~141K</b></span><span class="soc">TikTok <b>~35K</b></span><span class="soc">FB <b>~20K</b></span><span class="soc">YT <b>active</b></span></div>
+        <p class="acc"><b>Also:</b> hosts the "Confidence Closet" podcast · represented by Talent Go.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag title">Titleholder</span></div>
+      </article>
+
+      <article class="who" data-k="title">
+        <div class="who-top"><div class="mono-disc">NA</div>
+          <div><h3>Nellie Anjaratiana</h3><span class="nat">Madagascar</span></div></div>
+        <p class="role"><b>Miss Madagascar 2020</b> and Top 40 at Miss World.</p>
+        <div class="socials"><span class="soc">IG <b>~80K</b></span><span class="soc">FB <b>~105K</b></span><span class="soc nil">TikTok not found</span></div>
+        <p class="acc"><b>Also:</b> her Beauty With a Purpose project addresses the stigma faced by twins in Mananjary, Madagascar · based in New York.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag title">Titleholder</span></div>
+      </article>
+
+      <article class="who" data-k="creator">
+        <div class="who-top"><div class="mono-disc">SK</div>
+          <div><h3>Sephora Kongo</h3><span class="nat">DR Congo</span></div></div>
+        <p class="role"><b>Fashion and lifestyle influencer</b>, Kinshasa-based. No pageant title found in public record.</p>
+        <div class="socials"><span class="soc">IG <b>~73K</b></span><span class="soc">TikTok <b>~39K</b></span><span class="soc nil">FB conflicting</span></div>
+        <p class="acc"><b>Also:</b> featured in BellaNaija style coverage.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag flag">No title found</span></div>
+      </article>
+
+      <article class="who" data-k="creator flag">
+        <div class="who-top"><div class="mono-disc">?</div>
+          <div><h3>"Tai"</h3><span class="nat">Unknown</span></div></div>
+        <p class="role"><b>Unidentified.</b> An Instagram handle and nothing more — no name, nationality or credentials could be found. The original note also read "Tai (+1 Angelique)", which remains unresolved.</p>
+        <div class="socials"><span class="soc">IG <b>~43–63K</b></span><span class="soc nil">Nothing else found</span></div>
+        <p class="acc"><b>Needed:</b> a full name and bio from whoever added her to the list. Identity cannot be confirmed from the handle alone.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag flag">Unidentified</span></div>
+      </article>
+
+      <article class="who" data-k="creator">
+        <div class="who-top"><div class="mono-disc">KK</div>
+          <div><h3>Khaiza Kuyo</h3><span class="nat">Côte d'Ivoire</span></div></div>
+        <p class="role"><b>Actress</b> — plays Brenda in the Ivorian series <em>Isabelle</em>. No pageant title found in public record. Spelled <em>Kaihza</em> in most sources.</p>
+        <div class="socials"><span class="soc">IG <b>~33K</b></span><span class="soc">TikTok <b>~57K</b></span><span class="soc nil">FB unconfirmed</span></div>
+        <p class="acc"><b>Also:</b> describes herself as an app founder and artist manager — not corroborated by press.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag flag">No title found</span></div>
+      </article>
+
+      <article class="who" data-k="title">
+        <div class="who-top"><div class="mono-disc">BZ</div>
+          <div><h3>Bella Zabaneh</h3><span class="nat">Belize</span></div></div>
+        <p class="role"><b>Miss Universe Belize 2025</b>, representing Belize at Miss Universe 2025.</p>
+        <div class="socials"><span class="soc">IG <b>~23K</b></span><span class="soc">TikTok <b>~22K</b></span><span class="soc nil">Second IG account exists</span></div>
+        <p class="acc"><b>Also:</b> co-founder of Project Royalty, a nonprofit providing gowns and support to young Belizean women since 2019.</p>
+        <div class="tags"><span class="tag pend">Pending</span><span class="tag title">Titleholder</span></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="route">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">The Route</div>
+      <h2>Three legs, sixteen days</h2>
+      <p>Events, sponsor targets and ground partners researched for each country. Nothing below is booked — these are verified options and leads, not commitments.</p>
+    </div>
+
+    <div class="legs">
+
+      <div class="leg" data-c="ci">
+        <div class="leg-head">
+          <h3>Côte d'Ivoire</h3><span class="when">26 – 31 December</span>
+          <span class="st" style="color:var(--ok);">Anchor confirmed</span>
+        </div>
+        <div class="leg-body">
+          <div class="lc"><h4>Events</h4>
+            <div class="it"><strong>Mother Africa Festival</strong><span>27–28 Dec, Marcory Zone 4. Fourth edition, ~40,000 attendees. Founded by Kimany Tayoro.</span></div>
+            <div class="it"><strong>New Year's Eve fireworks</strong><span>31 Dec, Général de Gaulle bridge over the Ebrié Lagoon. Free, city-wide.</span></div>
+            <div class="it"><strong>Sofitel Réveillon gala</strong><span>Congress Palace. Past editions featured Magic System live.</span></div>
+            <div class="it"><strong>Nahiko, Assinie</strong><span>Lagoon-side NYE dinner — the intimate alternative.</span></div>
+          </div>
+          <div class="lc"><h4>Sponsor targets</h4>
+            <div class="it"><strong>Orange Côte d'Ivoire</strong><span>Runs a formal sponsorship programme as policy.</span></div>
+            <div class="it"><strong>Air Côte d'Ivoire</strong><span>AFCON 2023 official carrier; backed the Children of Africa gala.</span></div>
+            <div class="it"><strong>Solibra</strong><span>Ivorian since 1955, FEMUA sponsor, marking its 70th year.</span></div>
+            <div class="it"><strong>Brassivoire</strong><span>Heineken and CFAO joint venture, runs its own Abidjan events.</span></div>
+          </div>
+          <div class="lc"><h4>Partners &amp; logistics</h4>
+            <div class="it"><strong>Ivory Jet Services</strong><span>New Abidjan base, European AOC, Falcon and Legacy aircraft.</span></div>
+            <div class="it"><strong>La Sunday</strong><span>Abidjan's signature day-party brand, 6,000+ on the lagoon.</span></div>
+            <div class="it"><strong>Sofitel · Radisson Blu · Hôtel Président</strong><span>Assinie boutique: Nahiko, Maison d'Akoula, Key 19.</span></div>
+            <div class="it"><strong>Monbolide · WINO · Auto Ivoire</strong><span>Chauffeur fleets, ~55–120k FCFA/day.</span></div>
+          </div>
+        </div>
+        <div class="watch"><b>Watch</b> Grand-Bassam's beaches were closed on 30 December last year after an oil spill, reopening under restrictions from 1 January. Check live status before committing a Bassam day.</div>
+      </div>
+
+      <div class="leg" data-c="gh">
+        <div class="leg-head">
+          <h3>Ghana</h3><span class="when">Early January</span>
+          <span class="st" style="color:var(--stop);">Cities open</span>
+        </div>
+        <div class="leg-body">
+          <div class="lc"><h4>Events</h4>
+            <div class="it"><strong>"December in GH"</strong><span>Government programme, 1 Dec – 3 Jan, run by the Ghana Tourism Authority with an open call for partners.</span></div>
+            <div class="it"><strong>AfroFuture Fest</strong><span>~27–29 Dec, El Wak Stadium, ~31,000 attendees.</span></div>
+            <div class="it"><strong>Detty Rave</strong><span>Mr Eazi's event — the biggest celebrity draw on the calendar.</span></div>
+            <div class="it"><strong>Polo Beach Club NYE</strong><span>Labadi. Tiers from ₵500 to ₵70,000 — a useful VIP benchmark.</span></div>
+          </div>
+          <div class="lc"><h4>Sponsor targets</h4>
+            <div class="it"><strong>Ghana Tourism Authority</strong><span>Runs the season and takes partner proposals; also the route to Miss Diaspora Ghana.</span></div>
+            <div class="it"><strong>MTN Ghana</strong><span>Concert sponsorship history plus a foundation — sponsor and impact partner in one.</span></div>
+            <div class="it"><strong>AirtelTigo</strong><span>First operator to launch eSIM in Ghana.</span></div>
+            <div class="it"><strong>Guinness Ghana · Kasapreko</strong><span>Dominant beverage players, no confirmed tie-in yet.</span></div>
+          </div>
+          <div class="lc"><h4>Partners &amp; logistics</h4>
+            <div class="it"><strong>Culture Management Group</strong><span>The most internationally professionalised producer in the market.</span></div>
+            <div class="it"><strong>McDan Aviation</strong><span>Ghana's dominant private-jet terminal at Kotoka.</span></div>
+            <div class="it"><strong>Kempinski · Labadi Beach · Mövenpick</strong><span>The standard luxury shortlist for Accra groups.</span></div>
+            <div class="it"><strong>SOS Children's Villages Ghana</strong><span>Eleven locations since 1974 — the most credible foundation partner found.</span></div>
+          </div>
+        </div>
+        <div class="watch"><b>Watch</b> No 2026 dates are published yet — festival line-ups typically drop in September and October, so everything here follows last season's pattern. Cape Coast is confirmed weak for December nightlife: a daytime heritage stop only.</div>
+      </div>
+
+      <div class="leg" data-c="ng">
+        <div class="leg-head">
+          <h3>Nigeria</h3><span class="when">New Year – 10 January</span>
+          <span class="st" style="color:var(--wait);">Draft</span>
+        </div>
+        <div class="leg-body">
+          <div class="lc"><h4>Events</h4>
+            <div class="it"><strong>Flytime Fest</strong><span>21–25 Dec, Eko Convention Centre. Twenty-one years running.</span></div>
+            <div class="it"><strong>Livespot Detty December Fest</strong><span>Co-produced with the Federal Ministry of Arts and Culture.</span></div>
+            <div class="it"><strong>Abuja Groovy December</strong><span>Moshood Abiola Stadium. Includes a "Miss Groovy December" pageant.</span></div>
+            <div class="it"><strong>Transcorp Hilton Abuja</strong><span>Runs its own NYE gala and New Year's Day show.</span></div>
+          </div>
+          <div class="lc"><h4>Sponsor targets</h4>
+            <div class="it"><strong>Wema Bank (ALAT)</strong><span>Confirmed headline Detty December sponsor last season.</span></div>
+            <div class="it"><strong>Martell · Guinness · Hennessy</strong><span>All three ran confirmed premium activations.</span></div>
+            <div class="it"><strong>MTN · Airtel · Glo</strong><span>Heavy festive-data marketing; strong pitch targets.</span></div>
+            <div class="it"><strong>Eko Hotels &amp; Suites</strong><span>Runs its own December festival property.</span></div>
+          </div>
+          <div class="lc"><h4>Partners &amp; logistics</h4>
+            <div class="it"><strong>Livespot360</strong><span>The dominant producer, government-endorsed. Prior Cardi B booking.</span></div>
+            <div class="it"><strong>ExecuJet Africa</strong><span>Major FBO at Murtala Muhammed, hangar rated to BBJ size.</span></div>
+            <div class="it"><strong>Zeniks · Abuja Car Rental Express</strong><span>Motorcade and escort options; armoured vehicles in Abuja.</span></div>
+            <div class="it"><strong>Wellbeing Foundation Africa</strong><span>Maternal and child health — pairs naturally with the birthday.</span></div>
+          </div>
+        </div>
+        <div class="watch"><b>Watch</b> Lagos State's own free New Year's flagship was cancelled hours before kickoff last year with no reason given, after running annually since 2012. Do not anchor the NYE plan on it until 2026 status is confirmed.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="next">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">What's Next</div>
+      <h2>Four things block everything else</h2>
+      <p>Until the first two are answered, nothing should go out to a sponsor or to talent.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="k">01</div><h4>Confirm the concept with Olivia</h4><p>Purpose, ownership, funding, and what "Minister of Enjoyment" means in practice.</p></div>
+      <div class="step"><div class="k">02</div><h4>Send the roster corrections</h4><p>The title swap, the three names with no title, "Tai", and the "+1 Angelique" ambiguity.</p></div>
+      <div class="step"><div class="k">03</div><h4>Lock Ghana cities and dates</h4><p>Hotels, sponsors and event RSVPs there are all downstream of this one decision.</p></div>
+      <div class="step"><div class="k">04</div><h4>Set the budget and the paying client</h4><p>Sponsor pitches and vendor negotiations cannot meaningfully start without it.</p></div>
+    </div>
+
+    <div class="note" style="margin-top:34px;">
+      <b>Running in parallel:</b> individual calls with each woman covering concept, availability and terms · collecting handles, follower counts and official media kits · passports and visas as confirmations land · Olivia's local list — the Mother Africa organiser, Bassam beach status, sponsor outreach, and a foundation partner for Côte d'Ivoire · applying into the Ghana Tourism Authority partner process · confirming the Lagos NYE flagship for 2026 · deciding the content production model and sizing the crew.
+    </div>
+  </div>
+</section>
+
+<div class="closer">
+  <div class="wrap">
+    <div class="eyebrow">The one thing to settle first</div>
+    <h2 style="margin-top:18px;">What is this trip actually for?</h2>
+    <p>Celebration, tourism promotion, philanthropy, or a commercial content property. They are not mutually exclusive — but one has to be the organising idea that the itinerary, the sponsors and the fourteen conversations are all built to serve.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>Internal project hub — working draft, compiled July 2026 from public sources.</p>
+    <p>Follower figures are estimates and should be replaced with official media-kit data before anything reaches a sponsor. Line-up is invited, not confirmed.</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var btns = document.querySelectorAll(".filters button");
+    var cards = document.querySelectorAll("#roster .who");
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        var f = b.dataset.f;
+        btns.forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+        cards.forEach(function (c) {
+          var k = c.dataset.k || "";
+          var show = f === "all"
+            || (f === "flag" ? c.querySelector(".tag.flag") !== null : k.indexOf(f) !== -1);
+          c.classList.toggle("hide", !show);
+        });
+      });
+    });
+  })();
+</script>
