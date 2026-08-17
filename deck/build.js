@@ -1,3 +1,5 @@
+const fs = require("fs");
+const path = require("path");
 const pptxgen = require("pptxgenjs");
 const pres = new pptxgen();
 pres.layout = "LAYOUT_WIDE"; // 13.33 x 7.5
@@ -82,6 +84,13 @@ function chip(s, x, y, text, color) {
     fontFace: SANS, fontSize: 8, bold: true, color: color, charSpacing: 0.6,
   });
   return w;
+}
+
+// roster photos: deck/photos/_circles/<slug>.png, produced by prep_photos.py
+const PHOTO_DIR = path.join(__dirname, "photos", "_circles");
+function photoFor(slug) {
+  const f = path.join(PHOTO_DIR, slug + ".png");
+  return fs.existsSync(f) ? f : null;
 }
 
 function card(s, x, y, w, h) {
@@ -298,22 +307,22 @@ function card(s, x, y, w, h) {
 // 5–7 — ROSTER CARDS
 // ============================================================
 const roster = [
-  { n: "Olivia Yacé",               nat: "CÔTE D'IVOIRE", t: "Miss Côte d'Ivoire 2021 · 4th RU, Miss Universe 2025", ig: "~1M",       o: "TikTok ~934K · FB ~756K", st: "warn", stl: "VERIFY TITLE" },
-  { n: "Veena Praveenar Singh",     nat: "THAILAND",      t: "Miss Universe Thailand 2025 · 1st RU, Miss Universe 2025", ig: "~2M",   o: "TikTok active",           st: "warn", stl: "CORRECTED" },
-  { n: "Isabella Menin",            nat: "BRAZIL",        t: "Miss Grand International 2022",                    ig: "~1.05M",   o: "No other platform found", st: "ok",   stl: "CONFIRMED" },
-  { n: "Nadia Mejia",               nat: "ECUADOR / USA", t: "Miss Universe Ecuador 2025 · Miss California USA 2016", ig: "~435K", o: "TikTok ~125K",            st: "warn", stl: "CORRECTED" },
-  { n: "Alicia Aylies",             nat: "FRENCH GUIANA", t: "Miss France 2017",                                 ig: "~423K",    o: "TikTok ~148K · FB ~78K",  st: "ok",   stl: "CONFIRMED" },
+  { slug: "olivia-yace", n: "Olivia Yacé",               nat: "CÔTE D'IVOIRE", t: "Miss Côte d'Ivoire 2021 · 4th RU, Miss Universe 2025", ig: "~1M",       o: "TikTok ~934K · FB ~756K", st: "warn", stl: "VERIFY TITLE" },
+  { slug: "veena-praveenar", n: "Veena Praveenar Singh",     nat: "THAILAND",      t: "Miss Universe Thailand 2025 · 1st RU, Miss Universe 2025", ig: "~2M",   o: "TikTok active",           st: "warn", stl: "CORRECTED" },
+  { slug: "isabella-menin", n: "Isabella Menin",            nat: "BRAZIL",        t: "Miss Grand International 2022",                    ig: "~1.05M",   o: "No other platform found", st: "ok",   stl: "CONFIRMED" },
+  { slug: "nadia-mejia", n: "Nadia Mejia",               nat: "ECUADOR / USA", t: "Miss Universe Ecuador 2025 · Miss California USA 2016", ig: "~435K", o: "TikTok ~125K",            st: "warn", stl: "CORRECTED" },
+  { slug: "alicia-aylies", n: "Alicia Aylies",             nat: "FRENCH GUIANA", t: "Miss France 2017",                                 ig: "~423K",    o: "TikTok ~148K · FB ~78K",  st: "ok",   stl: "CONFIRMED" },
 
-  { n: "Angélique Angarni-Filopon", nat: "MARTINIQUE",    t: "Miss France 2025 — first Martinican winner",        ig: "~395K",    o: "No personal TikTok",      st: "warn", stl: "CORRECTED" },
-  { n: "Rebecca Biangue",           nat: "FRANCE",        t: "Beauty & lifestyle creator — no title found",       ig: "~220K",    o: "TikTok ~43K",             st: "crit", stl: "NO TITLE" },
-  { n: "Dorcas Dienda",             nat: "DR CONGO",      t: "Miss Africa 2019 · Miss Universe DR Congo 2025",    ig: "~216K",    o: "TikTok active",           st: "ok",   stl: "CONFIRMED" },
-  { n: "Ophély Mézino",             nat: "GUADELOUPE",    t: "Miss World 2019 1st RU · Miss Universe Guadeloupe 2025", ig: "~141K", o: "TikTok ~35K · FB ~20K", st: "ok",   stl: "CONFIRMED" },
-  { n: "Nellie Anjaratiana",        nat: "MADAGASCAR",    t: "Miss Madagascar 2020 · Top 40, Miss World",         ig: "~80K",     o: "Facebook ~105K",          st: "ok",   stl: "CONFIRMED" },
+  { slug: "angelique-angarni-filopon", n: "Angélique Angarni-Filopon", nat: "MARTINIQUE",    t: "Miss France 2025 — first Martinican winner",        ig: "~395K",    o: "No personal TikTok",      st: "warn", stl: "CORRECTED" },
+  { slug: "rebecca-biangue", n: "Rebecca Biangue",           nat: "FRANCE",        t: "Beauty & lifestyle creator — no title found",       ig: "~220K",    o: "TikTok ~43K",             st: "crit", stl: "NO TITLE" },
+  { slug: "dorcas-dienda", n: "Dorcas Dienda",             nat: "DR CONGO",      t: "Miss Africa 2019 · Miss Universe DR Congo 2025",    ig: "~216K",    o: "TikTok active",           st: "ok",   stl: "CONFIRMED" },
+  { slug: "ophely-mezino", n: "Ophély Mézino",             nat: "GUADELOUPE",    t: "Miss World 2019 1st RU · Miss Universe Guadeloupe 2025", ig: "~141K", o: "TikTok ~35K · FB ~20K", st: "ok",   stl: "CONFIRMED" },
+  { slug: "nellie-anjaratiana", n: "Nellie Anjaratiana",        nat: "MADAGASCAR",    t: "Miss Madagascar 2020 · Top 40, Miss World",         ig: "~80K",     o: "Facebook ~105K",          st: "ok",   stl: "CONFIRMED" },
 
-  { n: "Sephora Kongo",             nat: "DR CONGO",      t: "Fashion & lifestyle influencer — no title found",   ig: "~73K",     o: "TikTok ~39K",             st: "crit", stl: "NO TITLE" },
-  { n: "“Tai”",           nat: "UNKNOWN",       t: "No name, nationality or credentials found",         ig: "~43–63K",  o: "No other platform found", st: "crit", stl: "UNIDENTIFIED" },
-  { n: "Khaiza Kuyo",               nat: "CÔTE D'IVOIRE", t: "Actress, Ivorian series “Isabelle” — no title found", ig: "~33K", o: "TikTok ~57K",       st: "crit", stl: "NO TITLE" },
-  { n: "Bella Zabaneh",             nat: "BELIZE",        t: "Miss Universe Belize 2025",                         ig: "~23K",     o: "TikTok ~22K",             st: "ok",   stl: "CONFIRMED" },
+  { slug: "sephora-kongo", n: "Sephora Kongo",             nat: "DR CONGO",      t: "Fashion & lifestyle influencer — no title found",   ig: "~73K",     o: "TikTok ~39K",             st: "crit", stl: "NO TITLE" },
+  { slug: "tai", n: "“Tai”",           nat: "UNKNOWN",       t: "No name, nationality or credentials found",         ig: "~43–63K",  o: "No other platform found", st: "crit", stl: "UNIDENTIFIED" },
+  { slug: "khaiza-kuyo", n: "Khaiza Kuyo",               nat: "CÔTE D'IVOIRE", t: "Actress, Ivorian series “Isabelle” — no title found", ig: "~33K", o: "TikTok ~57K",       st: "crit", stl: "NO TITLE" },
+  { slug: "bella-zabaneh", n: "Bella Zabaneh",             nat: "BELIZE",        t: "Miss Universe Belize 2025",                         ig: "~23K",     o: "TikTok ~22K",             st: "ok",   stl: "CONFIRMED" },
 ];
 
 function rosterSlide(items, idx, total) {
@@ -333,14 +342,24 @@ function rosterSlide(items, idx, total) {
     // circular photo frame — the motif
     const d = 1.42;
     const cx = x + (cw - d) / 2;
-    s.addShape(pres.ShapeType.ellipse, {
-      x: cx, y: y + 0.26, w: d, h: d,
-      fill: { color: "EBE3E9" }, line: { color: GOLD, width: 1.5 },
-    });
-    s.addText("ADD\nPHOTO", {
-      x: cx, y: y + 0.26, w: d, h: d, margin: 0, align: "center", valign: "middle",
-      fontFace: SANS, fontSize: 8, bold: true, color: "A2929C", charSpacing: 1, lineSpacing: 10,
-    });
+    const photo = photoFor(p.slug);
+    if (photo) {
+      s.addImage({ path: photo, x: cx, y: y + 0.26, w: d, h: d });
+      // gold ring drawn over the image so the frame stays consistent
+      s.addShape(pres.ShapeType.ellipse, {
+        x: cx, y: y + 0.26, w: d, h: d,
+        fill: { type: "none" }, line: { color: GOLD, width: 1.5 },
+      });
+    } else {
+      s.addShape(pres.ShapeType.ellipse, {
+        x: cx, y: y + 0.26, w: d, h: d,
+        fill: { color: "EBE3E9" }, line: { color: GOLD, width: 1.5 },
+      });
+      s.addText("ADD\nPHOTO", {
+        x: cx, y: y + 0.26, w: d, h: d, margin: 0, align: "center", valign: "middle",
+        fontFace: SANS, fontSize: 8, bold: true, color: "A2929C", charSpacing: 1, lineSpacing: 10,
+      });
+    }
 
     s.addText(p.n, {
       x: x + 0.16, y: y + 1.82, w: cw - 0.32, h: 0.62, margin: 0, align: "center", valign: "top",
