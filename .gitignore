@@ -5,3 +5,5 @@ deck/*.pdf
 deck/min.pptx
 deck/t.txt
 deck/package*.json
+__pycache__/
+*.pyc
