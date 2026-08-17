@@ -1,5 +1,5 @@
 const { chromium } = require("playwright");
-const SRC = "file:///tmp/claude-0/-home-user-Detty-December/dc1ddaf8-c346-5c37-8c29-e3e176f0c094/scratchpad/detty-december-site.html";
+const SRC = "file:///home/user/Detty-December/site/index.html";
 const OUT = "/home/user/Detty-December/deck/qa";
 (async () => {
   const b = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
