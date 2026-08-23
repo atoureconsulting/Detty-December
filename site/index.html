@@ -182,6 +182,25 @@
   .impact b{color:var(--ok);}
   .watch b{color:var(--stop);}
 
+  .brands-table{display:flex;flex-direction:column;gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:3px;overflow:hidden;}
+  .brow{background:var(--night-2);padding:16px 22px;display:grid;
+    grid-template-columns:200px 1fr;gap:18px;align-items:flex-start;}
+  .brow.empty{opacity:.72;}
+  .bname{font-family:var(--display);font-size:16px;color:var(--ivory);padding-top:2px;}
+  .bdeals{display:flex;flex-direction:column;gap:10px;}
+  .deal{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:13px;}
+  .deal b{color:var(--ivory);font-weight:600;}
+  .deal i{color:var(--faint);font-style:normal;}
+  .deal .sc{font-family:var(--mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;
+    padding:2px 7px;border-radius:100px;border:1px solid currentColor;}
+  .deal .sc.ok{color:var(--ok);}
+  .deal .sc.wait{color:var(--wait);}
+  .deal .cf{font-family:var(--mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--faint);}
+  .bdeals .none{font-size:13px;color:var(--faint);font-style:italic;}
+  @media (max-width:640px){.brow{grid-template-columns:1fr;}}
+
   .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
   .step{border-top:1px solid var(--gold-dim);padding-top:16px;}
   .step .k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--gold);}
@@ -228,6 +247,7 @@
     <a href="#pillars">Pillars</a>
     <a href="#lineup">Line-up</a>
     <a href="#route">Route</a>
+    <a href="#brands">Brand History</a>
     <a href="#status">Status</a>
   </div>
 </nav>
@@ -555,6 +575,35 @@
         <div class="impact"><b>Social impact</b>Wellbeing Foundation Africa — maternal and child health, founded by Toyin Ojora Saraki, which pairs naturally with the birthday celebration. Slum2School Africa is the education-focused alternative in Lagos.</div>
         <div class="watch"><b>Watch</b>Lagos State's own free New Year's flagship was cancelled hours before kickoff last year with no reason given, after running annually since 2012. Do not anchor the NYE plan on it.</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="brands">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Sponsor Precedent</div>
+      <h2>What brand history actually exists</h2>
+      <p>Researched to find international/global deals specifically — the point was to lean on each
+        woman's own network rather than pitch African brands exclusively. The honest result: three of
+        thirteen researched have a verifiable global deal. Tai is excluded — still unidentified.</p>
+    </div>
+
+    <div class="stats" style="margin-bottom:34px;">
+      <div class="stat"><div class="n">3</div><div class="l">With a global deal</div><div class="s">of 13 researched</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">Local deals only</div><div class="s">Olivia Yacé, Ophély Mézino, Bella Zabaneh</div></div>
+      <div class="stat"><div class="n">7</div><div class="l">No history found</div><div class="s">a real finding, not a gap in search</div></div>
+    </div>
+
+    <div class="brands-table"><div class="brow"><div class="bname">Olivia Yacé</div><div class="bdeals"><span class="deal"><b>Raymond Weil</b><i>Watches</i><span class="sc ok">Global</span><span class="cf">Unconfirmed</span></span><span class="deal"><b>ZINO / ADOHA</b><i>Jewelry / real estate</i><span class="sc wait">Local only</span><span class="cf">Reported</span></span></div></div><div class="brow empty"><div class="bname">Veena Praveenar Singh</div><div class="bdeals"><span class="none">No verifiable brand history found</span></div></div><div class="brow empty"><div class="bname">Isabella Menin</div><div class="bdeals"><span class="none">No verifiable brand history found</span></div></div><div class="brow"><div class="bname">Nadia Mejia</div><div class="bdeals"><span class="deal"><b>Guess</b><i>Fashion</i><span class="sc ok">Global</span><span class="cf">Reported</span></span><span class="deal"><b>Kitchen Crafted</b><i>Food</i><span class="sc ok">Global</span><span class="cf">Confirmed</span></span></div></div><div class="brow"><div class="bname">Alicia Aylies</div><div class="bdeals"><span class="deal"><b>Festina</b><i>Watches</i><span class="sc ok">Global</span><span class="cf">Confirmed</span></span><span class="deal"><b>Mauboussin</b><i>Jewelry</i><span class="sc ok">Global</span><span class="cf">Confirmed</span></span><span class="deal"><b>Palmer&#x27;s</b><i>Beauty</i><span class="sc ok">Global</span><span class="cf">Reported</span></span></div></div><div class="brow"><div class="bname">Angélique Angarni-Filopon</div><div class="bdeals"><span class="deal"><b>Festina</b><i>Watches</i><span class="sc ok">Global</span><span class="cf">Confirmed</span></span></div></div><div class="brow empty"><div class="bname">Rebecca Biangue</div><div class="bdeals"><span class="none">No verifiable brand history found</span></div></div><div class="brow empty"><div class="bname">Dorcas Dienda</div><div class="bdeals"><span class="none">No verifiable brand history found</span></div></div><div class="brow"><div class="bname">Ophély Mézino</div><div class="bdeals"><span class="deal"><b>Local Guadeloupe soda brand</b><i>Beverage</i><span class="sc wait">Local only</span><span class="cf">Reported</span></span></div></div><div class="brow empty"><div class="bname">Nellie Anjaratiana</div><div class="bdeals"><span class="none">No verifiable brand history found</span></div></div><div class="brow empty"><div class="bname">Sephora Kongo</div><div class="bdeals"><span class="none">No verifiable brand history found</span></div></div><div class="brow empty"><div class="bname">Khaiza Kuyo</div><div class="bdeals"><span class="none">No verifiable brand history found</span></div></div><div class="brow"><div class="bname">Bella Zabaneh</div><div class="bdeals"><span class="deal"><b>Belize Bank</b><i>Banking</i><span class="sc wait">Local only</span><span class="cf">Confirmed</span></span><span class="deal"><b>ID Seven Apparel</b><i>Fashion</i><span class="sc wait">Local only</span><span class="cf">Reported</span></span></div></div>
+    </div>
+
+    <div class="note">
+      <b>Reading this.</b> Alicia Aylies (Festina, Mauboussin, Palmer's) and Nadia Mejia (Guess,
+      Kitchen Crafted) carry the strongest independently-verifiable global track records — watches/
+      jewelry and fashion/beauty respectively. Angélique Angarni-Filopon's Festina deal is real but
+      structural to the Miss France title, not personally negotiated. For everyone else, a sponsor
+      pitch has to rest on reach and story, not an existing relationship to extend.
     </div>
   </div>
 </section>

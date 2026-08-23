@@ -20,6 +20,7 @@ ROSTER = [
         also="Tourism Ambassador of Côte d'Ivoire since 2022 · runs the Fondation Olivia Yacé · "
              "already publicly linked to Mother Africa Festival, the tour's opening anchor.",
         flags=["Verify affiliation"],
+        brands=[("Raymond Weil", "Watches", "global", "low"), ("ZINO / ADOHA", "Jewelry / real estate", "local", "med")],
     ),
     dict(
         slug="veena-praveenar", name="Veena Praveenar Singh", nat="Thailand", kind="title",
@@ -34,6 +35,7 @@ ROSTER = [
         ],
         also="Cultural and tourism ambassador for Thailand · fluent in Thai, English and Russian.",
         flags=["Title corrected"],
+        brands=[],
     ),
     dict(
         slug="isabella-menin", name="Isabella Menin", nat="Brazil", kind="title",
@@ -43,6 +45,7 @@ ROSTER = [
         also="Founder of LA Menin Beauty · MSc Finance, UCL · founded Beyond Project, "
              "supporting disability organisations in Brazil.",
         flags=[],
+        brands=[],
     ),
     dict(
         slug="nadia-mejia", name="Nadia Mejia", nat="Ecuador / USA", kind="title",
@@ -55,6 +58,7 @@ ROSTER = [
         ],
         also="Singer and worship leader · daughter of musician Gerardo and Miss West Virginia USA 1989.",
         flags=["Not the Chilean singer"],
+        brands=[("Guess", "Fashion", "global", "med"), ("Kitchen Crafted", "Food", "global", "high")],
     ),
     dict(
         slug="alicia-aylies", name="Alicia Aylies", nat="French Guiana", kind="title",
@@ -69,6 +73,7 @@ ROSTER = [
         also="Recording artist — \"Mojo\", \"Abuser\", \"No Wahala\" · Festina ambassador since 2017 · "
              "Hugo Boss and Lancaster Beauty campaigns.",
         flags=["Fan accounts exist"],
+        brands=[("Festina", "Watches", "global", "high"), ("Mauboussin", "Jewelry", "global", "high"), ("Palmer's", "Beauty", "global", "med")],
     ),
     dict(
         slug="angelique-angarni-filopon", name="Angélique Angarni-Filopon",
@@ -81,6 +86,7 @@ ROSTER = [
         ],
         also="Competing on the 2026 season of French Dancing with the Stars · appeared at Cannes 2025.",
         flags=["Year corrected — 2025, not 2019"],
+        brands=[("Festina", "Watches", "global", "high")],
     ),
     dict(
         slug="rebecca-biangue", name="Rebecca Biangue", nat="France", kind="creator",
@@ -94,6 +100,7 @@ ROSTER = [
         ],
         also="Note the TikTok handle carries a double h — confirm it is hers before tagging.",
         flags=["No title found"],
+        brands=[],
     ),
     dict(
         slug="dorcas-dienda", name="Dorcas Dienda", nat="DR Congo", kind="title",
@@ -108,6 +115,7 @@ ROSTER = [
         also="Founder of the Dorcas Dienda Foundation — child nutrition, education access, and "
              "women's empowerment through art and fashion mentorship in DRC.",
         flags=[],
+        brands=[],
     ),
     dict(
         slug="ophely-mezino", name="Ophély Mézino", nat="Guadeloupe", kind="title",
@@ -122,6 +130,7 @@ ROSTER = [
         ],
         also="Hosts the \"Confidence Closet\" podcast · represented by Talent Go.",
         flags=[],
+        brands=[("Local Guadeloupe soda brand", "Beverage", "local", "med")],
     ),
     dict(
         slug="nellie-anjaratiana", name="Nellie Anjaratiana", nat="Madagascar", kind="title",
@@ -134,6 +143,7 @@ ROSTER = [
         also="Her Beauty With a Purpose project addresses the stigma faced by twins in "
              "Mananjary, Madagascar · based in New York.",
         flags=[],
+        brands=[],
     ),
     dict(
         slug="sephora-kongo", name="Sephora Kongo", nat="DR Congo", kind="creator",
@@ -146,6 +156,7 @@ ROSTER = [
         ],
         also="Featured in BellaNaija style coverage.",
         flags=["No title found"],
+        brands=[],
     ),
     dict(
         slug="tai", name="“Tai”", nat="Unknown", kind="creator",
@@ -156,6 +167,7 @@ ROSTER = [
         also="Needed: a full name and bio from whoever added her to the list. Identity cannot be "
              "confirmed from the handle alone.",
         flags=["Unidentified"],
+        brands=[],
     ),
     dict(
         slug="khaiza-kuyo", name="Khaiza Kuyo", nat="Côte d'Ivoire", kind="creator",
@@ -170,6 +182,7 @@ ROSTER = [
         ],
         also="Describes herself as an app founder and artist manager — not corroborated by press.",
         flags=["No title found"],
+        brands=[],
     ),
     dict(
         slug="bella-zabaneh", name="Bella Zabaneh", nat="Belize", kind="title",
@@ -183,5 +196,6 @@ ROSTER = [
         also="Co-founder of Project Royalty, a nonprofit providing gowns and support to young "
              "Belizean women since 2019.",
         flags=["Two IG accounts"],
+        brands=[("Belize Bank", "Banking", "local", "high"), ("ID Seven Apparel", "Fashion", "local", "med")],
     ),
 ]

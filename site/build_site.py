@@ -218,6 +218,34 @@ def bill_html():
     return "\n        <i>·</i>\n        ".join(parts)
 
 
+SCOPE_LABEL = {"global": "Global", "local": "Local only"}
+SCOPE_COLOR = {"global": "ok", "local": "wait"}
+CONF_LABEL = {"high": "Confirmed", "med": "Reported", "low": "Unconfirmed"}
+
+
+def brands_html():
+    rows = []
+    for p in ROSTER:
+        if p["slug"] == "tai":
+            continue
+        b = p.get("brands", [])
+        if not b:
+            rows.append(
+                '<div class="brow empty"><div class="bname">%s</div>'
+                '<div class="bdeals"><span class="none">No verifiable brand history found</span></div></div>'
+                % E(p["name"]))
+            continue
+        deals = "".join(
+            '<span class="deal"><b>%s</b><i>%s</i>'
+            '<span class="sc %s">%s</span>'
+            '<span class="cf">%s</span></span>'
+            % (E(brand), E(cat), SCOPE_COLOR[scope], SCOPE_LABEL[scope], CONF_LABEL[conf])
+            for brand, cat, scope, conf in b
+        )
+        rows.append('<div class="brow"><div class="bname">%s</div><div class="bdeals">%s</div></div>' % (E(p["name"]), deals))
+    return "".join(rows)
+
+
 def main():
     if Image is None:
         print("Pillow not installed — photos will be skipped. pip install Pillow")
@@ -231,6 +259,7 @@ def main():
     page = TEMPLATE.replace("{{BILL}}", bill_html()) \
                    .replace("{{CARDS}}", cards) \
                    .replace("{{LEGS}}", legs_html()) \
+                   .replace("{{BRANDS}}", brands_html()) \
                    .replace("{{NPHOTO}}", str(withpic))
     with open(OUT, "w") as f:
         f.write(page)
@@ -429,6 +458,25 @@ TEMPLATE = r"""<title>Detty December</title>
   .impact b{color:var(--ok);}
   .watch b{color:var(--stop);}
 
+  .brands-table{display:flex;flex-direction:column;gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:3px;overflow:hidden;}
+  .brow{background:var(--night-2);padding:16px 22px;display:grid;
+    grid-template-columns:200px 1fr;gap:18px;align-items:flex-start;}
+  .brow.empty{opacity:.72;}
+  .bname{font-family:var(--display);font-size:16px;color:var(--ivory);padding-top:2px;}
+  .bdeals{display:flex;flex-direction:column;gap:10px;}
+  .deal{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:13px;}
+  .deal b{color:var(--ivory);font-weight:600;}
+  .deal i{color:var(--faint);font-style:normal;}
+  .deal .sc{font-family:var(--mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;
+    padding:2px 7px;border-radius:100px;border:1px solid currentColor;}
+  .deal .sc.ok{color:var(--ok);}
+  .deal .sc.wait{color:var(--wait);}
+  .deal .cf{font-family:var(--mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--faint);}
+  .bdeals .none{font-size:13px;color:var(--faint);font-style:italic;}
+  @media (max-width:640px){.brow{grid-template-columns:1fr;}}
+
   .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
   .step{border-top:1px solid var(--gold-dim);padding-top:16px;}
   .step .k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--gold);}
@@ -475,6 +523,7 @@ TEMPLATE = r"""<title>Detty December</title>
     <a href="#pillars">Pillars</a>
     <a href="#lineup">Line-up</a>
     <a href="#route">Route</a>
+    <a href="#brands">Brand History</a>
     <a href="#status">Status</a>
   </div>
 </nav>
@@ -634,6 +683,35 @@ TEMPLATE = r"""<title>Detty December</title>
         Nothing below is booked — these are verified options and leads, not commitments.</p>
     </div>
     <div class="legs">{{LEGS}}
+    </div>
+  </div>
+</section>
+
+<section id="brands">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Sponsor Precedent</div>
+      <h2>What brand history actually exists</h2>
+      <p>Researched to find international/global deals specifically — the point was to lean on each
+        woman's own network rather than pitch African brands exclusively. The honest result: three of
+        thirteen researched have a verifiable global deal. Tai is excluded — still unidentified.</p>
+    </div>
+
+    <div class="stats" style="margin-bottom:34px;">
+      <div class="stat"><div class="n">3</div><div class="l">With a global deal</div><div class="s">of 13 researched</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">Local deals only</div><div class="s">Olivia Yacé, Ophély Mézino, Bella Zabaneh</div></div>
+      <div class="stat"><div class="n">7</div><div class="l">No history found</div><div class="s">a real finding, not a gap in search</div></div>
+    </div>
+
+    <div class="brands-table">{{BRANDS}}
+    </div>
+
+    <div class="note">
+      <b>Reading this.</b> Alicia Aylies (Festina, Mauboussin, Palmer's) and Nadia Mejia (Guess,
+      Kitchen Crafted) carry the strongest independently-verifiable global track records — watches/
+      jewelry and fashion/beauty respectively. Angélique Angarni-Filopon's Festina deal is real but
+      structural to the Miss France title, not personally negotiated. For everyone else, a sponsor
+      pitch has to rest on reach and story, not an existing relationship to extend.
     </div>
   </div>
 </section>
