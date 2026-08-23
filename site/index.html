@@ -3,7 +3,7 @@
   :root{
     --night:#150B13; --night-2:#1F1019; --raise:#271520;
     --line:#3C2431; --line-2:#4E2F3E;
-    --gold:#D9A940; --gold-dim:#8E6C29;
+    --gold:#CFAA5C; --gold-dim:#8E6C29;
     --ivory:#F3E9EE; --soft:#B29AA7; --faint:#8A7280;
     --ci:#E08A58; --gh:#D96A66; --ng:#77BE8D;
     --ok:#77BE8D; --wait:#E0B856; --stop:#E2807E;
@@ -22,7 +22,12 @@
   .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;
     text-transform:uppercase;color:var(--gold);}
 
-  nav{position:sticky;top:0;z-index:20;background:rgba(21,11,19,.94);
+  .letterhead{background:var(--night);border-bottom:1px solid var(--line);}
+  .lh-inner{display:flex;align-items:center;gap:9px;height:30px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--faint);}
+  .lh-badge{font-family:var(--display);font-size:13px;color:var(--gold);border:1px solid var(--gold-dim);border-radius:50%;width:19px;height:19px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .ftr-badge{width:26px;height:26px;font-size:16px;}
+  .lh-sep{color:var(--line-2);}
+  nav{position:sticky;top:30px;z-index:20;background:rgba(21,11,19,.94);
     backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
   nav .wrap{display:flex;align-items:center;gap:20px;height:52px;overflow-x:auto;}
   nav .mark{font-family:var(--display);font-size:16px;white-space:nowrap;}
@@ -60,6 +65,7 @@
     max-width:24ch;margin:0 0 34px;}
   .thesis em{font-style:italic;color:var(--gold);}
   .prose{columns:2;column-gap:44px;font-size:15px;color:var(--soft);max-width:none;}
+  .prose.narrow{columns:1;max-width:62ch;}
   .prose p{margin:0 0 15px;break-inside:avoid;}
   .prose b{color:var(--ivory);font-weight:600;}
 
@@ -185,8 +191,11 @@
   .closer{padding:86px 0;text-align:center;}
   .closer h2{font-size:clamp(26px,4.6vw,44px);line-height:1.14;max-width:17ch;margin:18px auto 0;}
   .closer p{color:var(--soft);max-width:52ch;margin:22px auto 0;font-size:15px;}
-  footer{padding:32px 0 60px;color:var(--faint);font-size:12px;}
+  footer{padding:40px 0 60px;color:var(--faint);font-size:12px;}
   footer p{margin:0 0 6px;}
+  .ftr-brand{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid var(--line);}
+  .ftr-name{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ivory);}
+  .ftr-line{font-size:11.5px;color:var(--faint);margin-top:4px;}
 
   @media (max-width:900px){
     .prose{columns:1;}
@@ -204,6 +213,14 @@
   }
 </style>
 
+<div class="letterhead">
+  <div class="wrap lh-inner">
+    <span class="lh-badge">A</span>
+    <span>ATOURE MANAGEMENT &amp; CONSULTING</span>
+    <span class="lh-sep">·</span>
+    <span>PROJECT HUB</span>
+  </div>
+</div>
 <nav>
   <div class="wrap">
     <span class="mark">Detty <b>December</b></span>
@@ -271,24 +288,17 @@
     <p class="thesis">West Africa in December is already the party. We are bringing the
       <em>women the world watches</em> — and making the trip count for something.</p>
 
-    <div class="prose">
-      <p><b>What this is.</b> Between 26 December and 10 January, fourteen titleholders and public
-        figures — Miss Universe and Miss World titleholders, Miss France winners, and creators with
-        genuine reach — travel together through Côte d'Ivoire, Ghana and Nigeria. They arrive in
-        Abidjan on the 26th and open at Mother Africa Festival on the 27th.</p>
-      <p><b>Why now.</b> "Detty December" has become one of the largest annual movements of people
-        and money into West Africa, drawing the diaspora home for a month of festivals. Ghana and
-        Nigeria both run government-backed December programmes. The season already exists — what it
-        has not had is a single travelling group of this profile moving across three countries at once.</p>
-      <p><b>What we aim to achieve.</b> Three things. Put West Africa in front of a combined audience
-        of several million as a destination rather than a headline. Deliver a real, documented social
-        impact action in each of the three countries, not a photo opportunity. And produce content
-        with a life beyond the trip — footage that carries the destinations and the foundation work
-        long after everyone flies home.</p>
-      <p><b>Who it serves.</b> The countries get visibility and tourism attention in their peak
-        season. The sponsors get reach and a genuine impact story. The women get a platform that
-        connects them to the continent. And the communities we work with in each country get the
-        actual point of the exercise.</p>
+    <div class="prose narrow">
+      <p>Between 26 December and 10 January, fourteen titleholders and public figures travel
+        together through Côte d'Ivoire, Ghana and Nigeria — arriving in Abidjan on the 26th, opening
+        at Mother Africa Festival on the 27th. "Detty December" is already one of the largest annual
+        movements of people and money into West Africa; this is the first single travelling group of
+        this profile to move across three of its countries at once.</p>
+      <p>Two things this trip is for: putting West Africa in front of a combined audience of several
+        million as a destination, not a headline — and a real, documented social-impact action in
+        each country, not a photo opportunity. The countries get peak-season visibility, sponsors get
+        reach tied to genuine impact, and the communities we work with get the actual point of the
+        exercise.</p>
     </div>
 
     <div class="countries">
@@ -619,9 +629,15 @@
 
 <footer>
   <div class="wrap">
-    <p>Internal project hub — working draft, compiled from public sources. 0 of 14 photographs in place.</p>
-    <p>Follower figures are estimates and should be replaced with official media-kit data before
-      anything reaches a sponsor. Line-up is invited, not confirmed.</p>
+    <div class="ftr-brand">
+      <span class="lh-badge ftr-badge">A</span>
+      <div>
+        <div class="ftr-name">ATOURE MANAGEMENT &amp; CONSULTING</div>
+        <div class="ftr-line">30 Chichele Road, London, England &nbsp;·&nbsp; General@atoureconsulting.com &nbsp;·&nbsp; www.atoureconsulting.com</div>
+      </div>
+    </div>
+    <p>Working draft, compiled from public sources. 0 of 14 photographs in place. Line-up is invited, not confirmed.</p>
+    <p>Follower figures are estimates, not analytics — replace with media-kit data before anything reaches a sponsor.</p>
   </div>
 </footer>
 
