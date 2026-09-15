@@ -7,3 +7,14 @@ deck/t.txt
 deck/package*.json
 __pycache__/
 *.pyc
+
+# Personal photographs of the delegation — supplied privately via the client's
+# Drive. This repository is PUBLIC; these must not be published here.
+deck/photos/*.jpg
+deck/photos/*.jpeg
+deck/photos/*.png
+deck/photos/_circles/
+# Deck builds embed those photographs as data URIs.
+deck/bbb-deck.html
+# Brand kit — pending a decision on publishing it in a public repo.
+brand/
