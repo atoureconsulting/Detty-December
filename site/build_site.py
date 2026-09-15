@@ -83,21 +83,24 @@ def card_html(p, idx):
     else:
         disc = '<div class="disc mono" aria-hidden="true">%s</div>' % E(initials(p["name"]))
         got = 0
-    tags = '<span class="tag pend">Pending</span>'
+    status = p.get("status", "core")
+    tags = {"core": '<span class="tag pend">Pending confirm</span>',
+            "reserve": '<span class="tag reserve">Reserve</span>',
+            "dropped": '<span class="tag dropped">Not selected</span>'}[status]
     if p["kind"] == "title":
         tags += '<span class="tag title">Titleholder</span>'
     for f in p["flags"]:
         tags += '<span class="tag flag">%s</span>' % E(f)
-    kinds = p["kind"] + (" flag" if p["flags"] else "")
+    kinds = p["kind"] + " " + status + (" flag" if p["flags"] else "")
     return got, """
-      <article class="who" data-k="%s">
+      <article class="who st-%s" data-k="%s">
         <div class="who-top">%s
           <div><h3>%s</h3><span class="nat">%s</span></div></div>
         <p class="role"><b>%s.</b> %s</p>
         <div class="socials">%s</div>
         <p class="acc">%s</p>
         <div class="tags">%s</div>
-      </article>""" % (kinds, disc, E(p["name"]), E(p["nat"]),
+      </article>""" % (status, kinds, disc, E(p["name"]), E(p["nat"]),
                        E(p["title"]), E(p["role"]), social_html(p["socials"]),
                        E(p["also"]), tags)
 
@@ -114,6 +117,7 @@ LEGS = [
                  ("Nahiko, Assinie", "Lagoon-side NYE dinner — the intimate alternative."),
              ]),
              ("Sponsor targets", [
+                 ("Sublime Côte d'Ivoire", "The tourism ministry's own promotion campaign — has an active pattern of paying for international sponsorship placements (Olympique de Marseille since 2023, Stade Français Paris since 2025). Strong precedent for exactly this kind of partnership."),
                  ("Orange Côte d'Ivoire", "Runs a formal sponsorship programme as policy."),
                  ("Air Côte d'Ivoire", "AFCON 2023 official carrier; backed the Children of Africa gala."),
                  ("Solibra", "Ivorian since 1955, FEMUA sponsor, marking its 70th year."),
@@ -156,7 +160,7 @@ LEGS = [
                 "found. MTN Ghana Foundation could serve as sponsor and impact partner in one relationship.",
          watch="No 2026 dates are published yet — festival line-ups typically drop in September and "
                "October, so everything here follows last season's pattern."),
-    dict(c="ng", name="Nigeria", when="New Year – 10 January", st="Draft", stc="wait",
+    dict(c="ng", name="Nigeria", when="New Year – 9 January", st="Draft", stc="wait",
          intro="The closing leg, the densest calendar, and the only market with confirmed active sponsors.",
          cols=[
              ("Events", [
@@ -166,6 +170,7 @@ LEGS = [
                  ("Transcorp Hilton Abuja", "Runs its own NYE gala and New Year's Day show."),
              ]),
              ("Sponsor targets", [
+                 ("Lagos State Ministry of Tourism, Arts and Culture", "Actively co-brands Detty December with corporate sponsors — Access Bank, MTN, Zenith Bank, Giwa Gardens. Reports $71.6M generated from Detty December 2024/25. The single strongest institutional precedent found anywhere on this tour."),
                  ("Wema Bank (ALAT)", "Confirmed headline Detty December sponsor last season."),
                  ("Martell · Guinness · Hennessy", "All three ran confirmed premium activations."),
                  ("MTN · Airtel · Glo", "Heavy festive-data marketing; strong pitch targets."),
@@ -183,6 +188,30 @@ LEGS = [
                 "education-focused alternative in Lagos.",
          watch="Lagos State's own free New Year's flagship was cancelled hours before kickoff last year "
                "with no reason given, after running annually since 2012. Do not anchor the NYE plan on it."),
+    dict(c="bj", name="Benin", when="Proposed — dates open", st="Unconfirmed", stc="stop",
+         intro="Newly added to the brief. Real and researchable, but nothing here is booked, and the "
+               "signature cultural event falls just after a Jan 9 close.",
+         cols=[
+             ("Events", [
+                 ("We Love Eya Festival", "~27–28 Dec, Place de l'Amazone, Cotonou. Africa-focused Afro-urban/Afrobeat festival funding local youth \"EYA Centers\" — a real event with existing sponsor partners (Digital Virgo, Trace Urban)."),
+                 ("Vodun Days", "8–10 Jan, Ouidah — the rebranded national Vodun/Voodoo festival, ceremonies and a beach concert stage. Falls just after a Jan 9 finish; extending one day would catch it."),
+                 ("PFL Africa Finals", "20 Dec 2025, Sofitel Cotonou Dome — shows Cotonou now hosts large international productions, not itself repeatable on these dates."),
+             ]),
+             ("Sponsor targets", [
+                 ("ANPT / Bénin Révélé", "The national tourism-development agency and its flagship campaign, targeting 2M visitors by 2030 with World Bank/AFD backing. Partnerships found so far are B2B (travel-trade agencies), not an ambassador programme — would need direct outreach."),
+                 ("We Love Eya", "Independent festival brand with its own sponsor pattern — a natural co-activation partner given the overlapping date."),
+             ]),
+             ("Partners &amp; logistics", [
+                 ("Sofitel Cotonou Marina Hotel &amp; Spa", "5-star, opened Nov 2023, private beach, largest convention space in the city."),
+                 ("Golden Tulip Le Diplomate · Azalaï Hôtel Cotonou", "4-star alternatives, both near the airport/Marina district."),
+                 ("Ouidah &amp; Ganvié", "Door of No Return, Python Temple, Sacred Forest, the stilt village — visitable year-round, no December-specific programming found."),
+             ]),
+         ],
+         impact="Women's cooperatives and Vodun cultural-heritage preservation were named in the client's "
+                "own itinerary sketch — no specific partner organisation identified yet.",
+         watch="No confirmed December-specific festival tied to Ouidah or Ganvié themselves — their "
+               "signature event is Vodun Days in January. DMC options (1 DMC World, TransAfrica, Denin "
+               "Travel) are real but unvetted; confirm service quality directly before booking."),
 ]
 
 
@@ -210,10 +239,41 @@ def legs_html():
     return "".join(out)
 
 
+def parse_reach(s):
+    if not s or s == "—":
+        return 0
+    s = s.replace(",", "").strip()
+    mult = 1
+    if s.endswith("M"):
+        mult, s = 1_000_000, s[:-1]
+    elif s.endswith("K"):
+        mult, s = 1_000, s[:-1]
+    try:
+        return float(s) * mult
+    except ValueError:
+        return 0
+
+
+def fmt_reach(n):
+    if n >= 1_000_000:
+        return "%.1fM" % (n / 1_000_000)
+    return "%.0fK" % (n / 1_000)
+
+
+def roster_stats():
+    active = [p for p in ROSTER if p.get("status") != "dropped"]
+    ig = sum(parse_reach(r) for p in active for plat, h, u, r in p["socials"] if plat == "Instagram")
+    tt = sum(parse_reach(r) for p in active for plat, h, u, r in p["socials"] if plat == "TikTok")
+    nations = len(set(p["nat"] for p in active))
+    return dict(ig=fmt_reach(ig), tt=fmt_reach(tt), nations=nations, active=len(active))
+
+
 def bill_html():
     parts = []
     for p in ROSTER:
-        cls = ' class="q"' if p["slug"] == "tai" else ""
+        if p.get("status") == "dropped":
+            continue
+        cls = ' class="rsv"' if p.get("status") == "reserve" else ""
         parts.append("<span%s>%s</span>" % (cls, E(p["name"])))
     return "\n        <i>·</i>\n        ".join(parts)
 
@@ -226,7 +286,7 @@ CONF_LABEL = {"high": "Confirmed", "med": "Reported", "low": "Unconfirmed"}
 def brands_html():
     rows = []
     for p in ROSTER:
-        if p["slug"] == "tai":
+        if p.get("status") == "dropped":
             continue
         b = p.get("brands", [])
         if not b:
@@ -246,20 +306,29 @@ def brands_html():
     return "".join(rows)
 
 
+STATUS_ORDER = {"core": 0, "reserve": 1, "dropped": 2}
+
+
 def main():
     if Image is None:
         print("Pillow not installed — photos will be skipped. pip install Pillow")
     cards, total, withpic = "", 0, 0
-    for i, p in enumerate(ROSTER, 1):
+    ordered = sorted(enumerate(ROSTER, 1), key=lambda t: STATUS_ORDER.get(t[1].get("status", "core"), 0))
+    for i, p in ordered:
         n, h = card_html(p, i)
         cards += h
         total += n
         withpic += 1 if n else 0
 
+    rs = roster_stats()
     page = TEMPLATE.replace("{{BILL}}", bill_html()) \
                    .replace("{{CARDS}}", cards) \
                    .replace("{{LEGS}}", legs_html()) \
                    .replace("{{BRANDS}}", brands_html()) \
+                   .replace("{{IG_SUM}}", rs["ig"]) \
+                   .replace("{{TT_SUM}}", rs["tt"]) \
+                   .replace("{{N_NATIONS}}", str(rs["nations"])) \
+                   .replace("{{N_ACTIVE}}", str(rs["active"])) \
                    .replace("{{NPHOTO}}", str(withpic))
     with open(OUT, "w") as f:
         f.write(page)
@@ -281,7 +350,7 @@ TEMPLATE = r"""<title>Detty December</title>
     --line:#3C2431; --line-2:#4E2F3E;
     --gold:#CFAA5C; --gold-dim:#8E6C29;
     --ivory:#F3E9EE; --soft:#B29AA7; --faint:#8A7280;
-    --ci:#E08A58; --gh:#D96A66; --ng:#77BE8D;
+    --ci:#E08A58; --gh:#D96A66; --ng:#77BE8D; --bj:#B08FD9;
     --ok:#77BE8D; --wait:#E0B856; --stop:#E2807E;
     --display:"Didot","Bodoni MT","Hoefler Text","Playfair Display",Georgia,serif;
     --sans:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
@@ -329,7 +398,21 @@ TEMPLATE = r"""<title>Detty December</title>
     font-family:var(--display);font-size:clamp(17px,2.5vw,27px);line-height:1.45;}
   .bill span{white-space:nowrap;}
   .bill i{color:var(--gold-dim);font-style:normal;padding:0 .3em;}
-  .bill .q{color:var(--faint);font-style:italic;}
+  .bill .rsv{color:var(--faint);font-style:italic;}
+  .name-tbd{margin-top:20px;font-family:var(--mono);font-size:11px;color:var(--faint);
+    letter-spacing:.04em;}
+  .name-tbd b{color:var(--soft);font-weight:600;}
+
+  .timeline{margin-top:38px;display:flex;flex-direction:column;}
+  .tl-row{display:flex;align-items:baseline;gap:22px;padding:14px 0;
+    border-top:1px solid var(--line);}
+  .tl-row:last-child{border-bottom:1px solid var(--line);}
+  .tl-y{font-family:var(--display);font-size:22px;color:var(--gold);width:64px;flex-shrink:0;}
+  .tl-r{font-size:15px;color:var(--ivory);}
+  .tl-c{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
+    text-transform:uppercase;padding:3px 9px;border-radius:100px;border:1px solid currentColor;}
+  .tl-c.ci{color:var(--ci);}
+  .tl-note{margin-top:24px;font-size:14px;color:var(--soft);max-width:66ch;}
 
   section{padding:74px 0;border-bottom:1px solid var(--line);}
   .sec-head{margin-bottom:36px;}
@@ -346,6 +429,7 @@ TEMPLATE = r"""<title>Detty December</title>
   .prose b{color:var(--ivory);font-weight:600;}
 
   .pillars{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:44px;}
+  .pillars.obj-grid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
   .pillar{background:var(--night-2);border:1px solid var(--line);border-radius:3px;padding:28px 26px;}
   .pillar .n{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--gold);}
   .pillar h3{font-size:25px;margin:12px 0 12px;}
@@ -354,7 +438,8 @@ TEMPLATE = r"""<title>Detty December</title>
   .pillar li{margin-bottom:7px;}
   .pillar li::marker{color:var(--gold-dim);}
 
-  .countries{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px;}
+  .countries{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:44px;}
+  .country h4 .qmark{color:var(--stop);}
   .country{border-top:1px solid var(--line-2);padding-top:18px;}
   .country h4{font-size:21px;}
   .country .w{font-family:var(--mono);font-size:10px;letter-spacing:.13em;
@@ -363,6 +448,7 @@ TEMPLATE = r"""<title>Detty December</title>
   .countries [data-c="ci"] h4{color:var(--ci);}
   .countries [data-c="gh"] h4{color:var(--gh);}
   .countries [data-c="ng"] h4{color:var(--ng);}
+  .countries [data-c="bj"] h4{color:var(--bj);}
 
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;
     background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;}
@@ -429,6 +515,10 @@ TEMPLATE = r"""<title>Detty December</title>
   .tag.pend{color:var(--wait);}
   .tag.flag{color:var(--stop);}
   .tag.title{color:var(--ok);}
+  .tag.reserve{color:var(--bj);}
+  .tag.dropped{color:var(--faint);}
+  .who.st-dropped{opacity:.55;}
+  .who.st-dropped:hover{opacity:.85;}
 
   .legs{display:flex;flex-direction:column;gap:22px;}
   .leg{background:var(--night-2);border:1px solid var(--line);border-radius:3px;overflow:hidden;}
@@ -442,6 +532,7 @@ TEMPLATE = r"""<title>Detty December</title>
   .leg[data-c="ci"] h3,.leg[data-c="ci"] .when{color:var(--ci);}
   .leg[data-c="gh"] h3,.leg[data-c="gh"] .when{color:var(--gh);}
   .leg[data-c="ng"] h3,.leg[data-c="ng"] .when{color:var(--ng);}
+  .leg[data-c="bj"] h3,.leg[data-c="bj"] .when{color:var(--bj);}
   .leg-body{display:grid;grid-template-columns:repeat(3,1fr);}
   .lc{padding:22px 24px;border-right:1px solid var(--line);}
   .lc:last-child{border-right:none;}
@@ -520,7 +611,8 @@ TEMPLATE = r"""<title>Detty December</title>
   <div class="wrap">
     <span class="mark">Detty <b>December</b></span>
     <a href="#project" class="sp">The Project</a>
-    <a href="#pillars">Pillars</a>
+    <a href="#objectives">Objectives</a>
+    <a href="#vision">Vision</a>
     <a href="#lineup">Line-up</a>
     <a href="#route">Route</a>
     <a href="#brands">Brand History</a>
@@ -537,104 +629,173 @@ TEMPLATE = r"""<title>Detty December</title>
   <div class="wrap">
     <div class="eyebrow">Project Hub · Pending Confirmation</div>
     <h1>Detty<br><em>December</em></h1>
-    <p class="lede">A sixteen-day tour of Côte d'Ivoire, Ghana and Nigeria with fourteen of the
-      world's most recognisable women — built on two pillars: showing West Africa to the world,
-      and leaving something behind in every country we enter.</p>
+    <p class="lede">A tourism-diplomacy and cultural-exchange initiative — presented by Olivia Yacé
+      International with the Fondation Olivia Yacé and national tourism boards. International
+      titleholders, entrepreneurs, philanthropists and global digital creators showcase West
+      Africa through tourism, philanthropy, entrepreneurship and culture.</p>
     <div class="meta">
-      <span>Dates <b>26 Dec – 10 Jan</b></span>
-      <span>Countries <b>Three</b></span>
-      <span>Line-up <b>14 invited</b></span>
+      <span>Dates <b>26 Dec – 9 Jan</b></span>
+      <span>Countries <b>Four</b></span>
+      <span>Core line-up <b>10 + 3 reserve</b></span>
       <span>Confirmed <b>None yet</b></span>
     </div>
     <div class="bill">
         {{BILL}}
     </div>
+    <p class="name-tbd">Working name: <b>West Africa Queens Tour</b> — not settled.</p>
   </div>
 </header>
 
 <section id="project">
   <div class="wrap">
     <div class="eyebrow">The Project</div>
-    <p class="thesis">West Africa in December is already the party. We are bringing the
-      <em>women the world watches</em> — and making the trip count for something.</p>
+    <p class="thesis">West Africa in December is already the party. We are bringing
+      <em>women the world watches</em> — as cultural ambassadors, not vacationers.</p>
 
     <div class="prose narrow">
-      <p>Between 26 December and 10 January, fourteen titleholders and public figures travel
-        together through Côte d'Ivoire, Ghana and Nigeria — arriving in Abidjan on the 26th, opening
-        at Mother Africa Festival on the 27th. "Detty December" is already one of the largest annual
-        movements of people and money into West Africa; this is the first single travelling group of
-        this profile to move across three of its countries at once.</p>
-      <p>Two things this trip is for: putting West Africa in front of a combined audience of several
-        million as a destination, not a headline — and a real, documented social-impact action in
-        each country, not a photo opportunity. The countries get peak-season visibility, sponsors get
-        reach tied to genuine impact, and the communities we work with get the actual point of the
-        exercise.</p>
+      <p>Between 26 December and 9 January, ten core titleholders, entrepreneurs and philanthropists
+        — plus three reserves — travel together through Côte d'Ivoire, Ghana, Nigeria and, if
+        confirmed, Benin. Framed correctly this is not an influencer trip: it is a diplomatic tourism
+        initiative that tourism boards, airlines, hotel groups and luxury brands can support, with a
+        combined audience the brief estimates at 30–70M+ followers discovering West Africa together.</p>
+      <p>Every day should answer to one of five objectives — tourism promotion, economic impact,
+        social impact, cultural exchange, international media — set out below. Where a day serves
+        none of them, it does not belong on the itinerary.</p>
     </div>
 
     <div class="countries">
       <div class="country" data-c="ci">
-        <h4>Côte d'Ivoire</h4><span class="w">26 – 31 December · Christmas</span>
-        <p>Abidjan, Assinie, Sassandra and Yamoussoukro. Opens with Mother Africa Festival, a
-          two-day pan-African culture festival drawing around forty thousand people.</p>
+        <h4>Côte d'Ivoire</h4><span class="w">Opens the tour · Christmas</span>
+        <p>Abidjan, Assinie, Grand-Bassam, Banco National Park, Yamoussoukro. Opening ceremony,
+          designer fashion shows, a children's hospital visit, and a tourism conference.</p>
       </div>
       <div class="country" data-c="gh">
-        <h4>Ghana</h4><span class="w">Early January · Cities open</span>
-        <p>The heart of the diaspora return. Cities and dates are still to be set, and the whole
-          season runs under a government programme that formally invites partners.</p>
+        <h4>Ghana</h4><span class="w">Cities open</span>
+        <p>Accra, Cape Coast Castle, Kakum National Park, artisan markets. A social project and
+          entrepreneur meetings alongside the heritage sites.</p>
       </div>
       <div class="country" data-c="ng">
-        <h4>Nigeria</h4><span class="w">New Year – 10 January</span>
-        <p>Lagos and Abuja. The densest events calendar of the three countries, and where the tour
-          closes — New Year's and a birthday celebration.</p>
+        <h4>Nigeria</h4><span class="w">Closes the tour</span>
+        <p>Lagos — art galleries, Nigerian fashion, the Afrobeats industry, entrepreneur networking
+          and a community action.</p>
+      </div>
+      <div class="country" data-c="bj">
+        <h4>Benin <span class="qmark">?</span></h4><span class="w">Proposed, unconfirmed</span>
+        <p>Ouidah, Ganvié, Vodun cultural heritage, women's cooperatives. Newly added — see the
+          Route section for what's actually verifiable.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="pillars">
+<section id="objectives">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">Two Pillars</div>
+      <div class="eyebrow">Five Objectives</div>
       <h2>Not only events</h2>
-      <p>Every day of this tour should answer to one of these two things. Where a day serves
-        neither, it does not belong on the itinerary.</p>
+      <p>The brief's own framing, kept intact — this is what every partner conversation should be
+        pitched against, government or corporate.</p>
     </div>
 
-    <div class="pillars">
+    <div class="pillars obj-grid">
       <div class="pillar">
-        <div class="n">PILLAR ONE</div>
-        <h3>Promoting West&nbsp;Africa</h3>
-        <p>Showing three countries as places to come to — their festivals, coastlines, hotels and
-          cities — through women whose audiences have never been shown them this way.</p>
-        <ul>
-          <li>Festival and cultural appearances in each country</li>
-          <li>Destination content across Instagram, TikTok, YouTube and Snapchat</li>
-          <li>Tourism board and ministry partnerships where they exist — Ghana's programme takes
-            partner proposals directly</li>
-          <li>Coastal, heritage and city coverage, not just nightlife</li>
-        </ul>
+        <div class="n">01 — TOURISM PROMOTION</div>
+        <h3>A modern West&nbsp;Africa</h3>
+        <p>Show the region as modern, safe, luxurious, authentic, welcoming and rich in heritage —
+          not only safaris or beaches.</p>
       </div>
       <div class="pillar">
-        <div class="n">PILLAR TWO</div>
-        <h3>Social Impact</h3>
-        <p>One substantive action in every country, planned with a local partner rather than
-          arranged around a camera. Several of the women already run their own foundations.</p>
-        <ul>
-          <li>A vetted local NGO or foundation partner per country</li>
-          <li>Holiday gift-giving, food and supply distribution, school and community visits</li>
-          <li>Consent and dignity protocols before any filming of beneficiaries</li>
-          <li>Impact reporting back to sponsors after the tour — measured, not implied</li>
-        </ul>
+        <div class="n">02 — ECONOMIC IMPACT</div>
+        <h3>Real spend, not just reach</h3>
+        <p>Spotlight hotels, airlines, restaurants, artisans, designers, museums and local
+          businesses to stimulate the tourism economy of each participating country.</p>
+      </div>
+      <div class="pillar">
+        <div class="n">03 — SOCIAL IMPACT</div>
+        <h3>A legacy in every country</h3>
+        <p>Through the Fondation Olivia Yacé — hospital visits, orphanage visits, girls' education,
+          women's empowerment, environmental initiatives, school and medical donations.</p>
+      </div>
+      <div class="pillar">
+        <div class="n">04 — CULTURAL EXCHANGE</div>
+        <h3>Ambassadors, not tourists</h3>
+        <p>Traditions, local culture, art, music, fashion and gastronomy — every guest leaves as a
+          genuine ambassador for West Africa.</p>
+      </div>
+      <div class="pillar">
+        <div class="n">05 — INTERNATIONAL MEDIA</div>
+        <h3>Global and African press together</h3>
+        <p>Built to draw international media alongside major African outlets, generating worldwide
+          visibility for the region.</p>
       </div>
     </div>
 
     <div class="note">
-      <b>Existing foundation work in the line-up.</b> Olivia Yacé runs the Fondation Olivia Yacé ·
+      <b>Existing foundation work in the core group.</b> Olivia Yacé runs the Fondation Olivia Yacé ·
       Dorcas Dienda's foundation works on child nutrition and education access in DRC ·
       Isabella Menin founded Beyond Project for disability organisations in Brazil ·
-      Bella Zabaneh co-founded Project Royalty in Belize ·
-      Nellie Anjaratiana's Beauty With a Purpose project addresses the stigma faced by twins in
-      Madagascar. The second pillar is not something we are imposing on this group.
+      Bella Zabaneh co-founded Project Royalty in Belize · Sheynnis Palacios hosts a mental-health
+      podcast and has advocacy ties to UNICEF, Smile Train and the AIDS Healthcare Foundation.
+      Objective three is not something being imposed on this group.
+    </div>
+  </div>
+</section>
+
+<section id="vision">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Long-Term Vision</div>
+      <h2>One continent, five years</h2>
+      <p>The brief's own stated ambition — worth stating plainly, since it changes how this year's
+        edition should be built. A first edition that can't repeat isn't the start of a franchise.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-row"><span class="tl-y">2026</span><span class="tl-r">West Africa</span><span class="tl-c ci">this edition</span></div>
+      <div class="tl-row"><span class="tl-y">2027</span><span class="tl-r">East Africa</span></div>
+      <div class="tl-row"><span class="tl-y">2028</span><span class="tl-r">Southern Africa</span></div>
+      <div class="tl-row"><span class="tl-y">2029</span><span class="tl-r">North Africa</span></div>
+      <div class="tl-row"><span class="tl-y">2030</span><span class="tl-r">Central Africa</span></div>
+    </div>
+    <p class="tl-note">The stated goal is to become the largest women-led tourism and cultural
+      promotion initiative on the continent. Whatever gets built for governance, budget and
+      production this year is the template the next four editions inherit.</p>
+  </div>
+</section>
+
+<section id="model">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Business Model</div>
+      <h2>Where the money comes from</h2>
+      <p>Ten proposed revenue streams from the brief. None are contracted yet — this is the target
+        list, not a funding commitment.</p>
+    </div>
+    <div class="cols">
+      <div class="panel">
+        <h4>Institutional</h4>
+        <ul>
+          <li>National tourism board partnerships</li>
+          <li>Airline partnerships</li>
+          <li>Hotel group partnerships</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>Commercial</h4>
+        <ul>
+          <li>Private sponsorship</li>
+          <li>Brand activations</li>
+          <li>Official merchandise</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>Content &amp; events</h4>
+        <ul>
+          <li>Audiovisual broadcast rights</li>
+          <li>International documentary</li>
+          <li>Digital content production</li>
+          <li>Charity gala</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -643,15 +804,17 @@ TEMPLATE = r"""<title>Detty December</title>
   <div class="wrap">
     <div class="sec-head">
       <div class="eyebrow">The Line-up</div>
-      <h2>Fourteen women, none yet confirmed</h2>
-      <p>Ordered by Instagram reach, with every account we could verify. Each profile was checked
-        against public record — where the original list was wrong, the correction is on the card.</p>
+      <h2>Eighteen candidates, ten core</h2>
+      <p>Ten core plus three reserves is the working group — "the group can't be too big." The
+        other five stay on record but are not being pursued. Every profile was checked against
+        public record; where a name or title didn't match, the correction is on the card.</p>
     </div>
 
     <div class="filters" role="group" aria-label="Filter the line-up">
-      <button type="button" data-f="all" aria-pressed="true">All 14</button>
-      <button type="button" data-f="title" aria-pressed="false">Titleholders</button>
-      <button type="button" data-f="creator" aria-pressed="false">Creators</button>
+      <button type="button" data-f="all" aria-pressed="true">All 18</button>
+      <button type="button" data-f="core" aria-pressed="false">Core Ten</button>
+      <button type="button" data-f="reserve" aria-pressed="false">Reserves</button>
+      <button type="button" data-f="dropped" aria-pressed="false">Not Selected</button>
       <button type="button" data-f="flag" aria-pressed="false">Needs resolving</button>
     </div>
 
@@ -659,17 +822,24 @@ TEMPLATE = r"""<title>Detty December</title>
     </div>
 
     <div class="stats" style="margin-top:34px;">
-      <div class="stat"><div class="n">14</div><div class="l">Invited</div><div class="s">none confirmed yet</div></div>
-      <div class="stat"><div class="n">~6.1M</div><div class="l">Instagram reach</div><div class="s">estimated, unverified</div></div>
-      <div class="stat"><div class="n">~1.4M</div><div class="l">TikTok reach</div><div class="s">where an account was found</div></div>
-      <div class="stat"><div class="n">11</div><div class="l">Nationalities</div><div class="s">one still unidentified</div></div>
+      <div class="stat"><div class="n">{{N_ACTIVE}}</div><div class="l">Core + reserve</div><div class="s">of 18 candidates</div></div>
+      <div class="stat"><div class="n">{{IG_SUM}}</div><div class="l">Instagram reach</div><div class="s">core + reserve, per client tracking</div></div>
+      <div class="stat"><div class="n">{{TT_SUM}}</div><div class="l">TikTok reach</div><div class="s">core + reserve, per client tracking</div></div>
+      <div class="stat"><div class="n">{{N_NATIONS}}</div><div class="l">Nationalities/territories</div><div class="s">core + reserve</div></div>
     </div>
 
     <div class="note">
-      <b>On the numbers.</b> Every follower figure here is an estimate compiled from public sources —
-      not a live platform reading, and not analytics. Engagement rate and audience demographics are
-      private to each woman's own dashboard and cannot be obtained any other way than by requesting
-      her official media kit. That request is part of the individual calls.
+      <b>Pattern worth flagging.</b> Once identities were verified, the great majority of both the
+      core group and the reserves turned out to be current Miss Universe 2025 national delegates
+      (Thailand cycle, Nov 2025) rather than the broader mix of "entrepreneurs, philanthropists and
+      digital creators" the positioning calls for. Worth deciding whether that concentration is fine
+      or whether the profile mix needs deliberate broadening.
+    </div>
+    <div class="note">
+      <b>On the numbers.</b> Follower figures for the reworked list are from the client's own
+      September 2026 tracking, not public-search estimates — more current than the numbers on the
+      original 14-name roster. Engagement rate and audience demographics still aren't public
+      anywhere; that only comes from each woman's official media kit.
     </div>
   </div>
 </section>
@@ -678,7 +848,7 @@ TEMPLATE = r"""<title>Detty December</title>
   <div class="wrap">
     <div class="sec-head">
       <div class="eyebrow">The Route</div>
-      <h2>Three legs, sixteen days</h2>
+      <h2>Four legs, one unconfirmed</h2>
       <p>Events, sponsor targets, ground partners and the social-impact position for each country.
         Nothing below is booked — these are verified options and leads, not commitments.</p>
     </div>
@@ -693,25 +863,26 @@ TEMPLATE = r"""<title>Detty December</title>
       <div class="eyebrow">Sponsor Precedent</div>
       <h2>What brand history actually exists</h2>
       <p>Researched to find international/global deals specifically — the point was to lean on each
-        woman's own network rather than pitch African brands exclusively. The honest result: three of
-        thirteen researched have a verifiable global deal. Tai is excluded — still unidentified.</p>
+        woman's own network rather than pitch African brands exclusively. Scoped to the 13 people
+        actually in play (core + reserve); the five not selected are excluded here.</p>
     </div>
 
     <div class="stats" style="margin-bottom:34px;">
-      <div class="stat"><div class="n">3</div><div class="l">With a global deal</div><div class="s">of 13 researched</div></div>
-      <div class="stat"><div class="n">3</div><div class="l">Local deals only</div><div class="s">Olivia Yacé, Ophély Mézino, Bella Zabaneh</div></div>
-      <div class="stat"><div class="n">7</div><div class="l">No history found</div><div class="s">a real finding, not a gap in search</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">With a global deal</div><div class="s">of 13 in the working group</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">Local deals only</div><div class="s">Olivia Yacé, Ophély Mézino, Bella Zabaneh, Hương Giang</div></div>
+      <div class="stat"><div class="n">5</div><div class="l">No history found</div><div class="s">a real finding, not a gap in search</div></div>
     </div>
 
     <div class="brands-table">{{BRANDS}}
     </div>
 
     <div class="note">
-      <b>Reading this.</b> Alicia Aylies (Festina, Mauboussin, Palmer's) and Nadia Mejia (Guess,
-      Kitchen Crafted) carry the strongest independently-verifiable global track records — watches/
-      jewelry and fashion/beauty respectively. Angélique Angarni-Filopon's Festina deal is real but
-      structural to the Miss France title, not personally negotiated. For everyone else, a sponsor
-      pitch has to rest on reach and story, not an existing relationship to extend.
+      <b>Reading this.</b> Sheynnis Palacios (Pandora) is the strongest global tie found in this whole
+      project — a confirmed, named jewelry-brand ambassadorship for Miss Universe 2023 herself. Alicia
+      Aylies (Festina, Mauboussin, Palmer's, reserve) and Nadia Mejia (Guess, Kitchen Crafted) back it
+      up. Angélique Angarni-Filopon's Festina deal is real but structural to the Miss France title, not
+      personally negotiated. For everyone else, a sponsor pitch has to rest on reach and story, not an
+      existing relationship to extend.
     </div>
   </div>
 </section>
@@ -721,20 +892,21 @@ TEMPLATE = r"""<title>Detty December</title>
     <div class="sec-head">
       <div class="eyebrow">Where We Are</div>
       <h2>Settled, and still open</h2>
-      <p>The shape of the trip is real. Several decisions underneath it are not — and they need
-        answering before the itinerary, the sponsor pitch or the fourteen calls can be finalised.</p>
+      <p>The repositioning answered several questions that were open before — but it opened new ones.
+        These need answering before the itinerary, the sponsor pitch or the calls to the core ten can
+        be finalised.</p>
     </div>
 
     <div class="cols">
       <div class="panel ok">
         <h4>Established</h4>
         <ul>
-          <li>Three host countries — Côte d'Ivoire, Ghana, Nigeria</li>
-          <li>Arrival in Abidjan 26 December; Mother Africa Festival on the 27th–28th is the opening anchor</li>
-          <li>Roughly 26 December to 10 January, closing in Nigeria</li>
-          <li>An all-female line-up of titleholders and public figures</li>
-          <li>Two pillars — promoting West Africa, and a social-impact action in each country</li>
-          <li>Private jet between legs, vans and Escalades on the ground</li>
+          <li>Presented by Olivia Yacé International with the Fondation Olivia Yacé and national tourism boards</li>
+          <li>Positioning: tourism diplomacy and cultural exchange, not an influencer trip</li>
+          <li>Core group of ten, plus three reserves — Côte d'Ivoire, Ghana, Nigeria confirmed; Benin proposed</li>
+          <li>Roughly 26 December to 9 January</li>
+          <li>Five objectives — tourism, economic impact, social impact, cultural exchange, international media</li>
+          <li>Camille Thomas shares her name with a well-known international cellist — disambiguate in every public-facing material</li>
           <li>No plus-ones — talent travel solo</li>
           <li>An individual call with each woman before anything is signed</li>
         </ul>
@@ -742,14 +914,14 @@ TEMPLATE = r"""<title>Detty December</title>
       <div class="panel open">
         <h4>Open — to decide with Olivia</h4>
         <ul>
-          <li>Which pillar leads when the two compete for the same day</li>
-          <li>Whose project this is — Olivia and Dorcas's initiative, or the agency's concept they host</li>
-          <li>What "Minister of Enjoyment" means in practice</li>
-          <li>Who funds it, and how the agency is paid</li>
-          <li>Ghana cities and dates — the one fully open leg</li>
-          <li>Whether New Year's Eve lands in Abidjan or Lagos</li>
+          <li>The tour name — "West Africa Queens Tour" is a working title only</li>
+          <li>Whether the Miss Universe 2025-delegate concentration in the roster is intentional</li>
+          <li>Whether Benin is confirmed as a fourth leg, given its signature event (Vodun Days) falls just after the Jan 9 close</li>
+          <li>Ghana cities and dates — the one fully open leg among the confirmed three</li>
+          <li>Who funds it, and which of the ten revenue streams are actually being pursued</li>
+          <li>Government outreach sequencing — Sublime Côte d'Ivoire and Lagos Tourism both have strong precedent and are worth approaching first</li>
+          <li>A foundation partner for Côte d'Ivoire — the only confirmed country without one identified</li>
           <li>Whether this is a documented trip or a media property that travels</li>
-          <li>A foundation partner for Côte d'Ivoire — the only country without one identified</li>
         </ul>
       </div>
     </div>
@@ -759,18 +931,18 @@ TEMPLATE = r"""<title>Detty December</title>
       <h2>Four things block everything else</h2>
     </div>
     <div class="steps">
-      <div class="step"><div class="k">01</div><h4>Confirm the concept with Olivia</h4><p>Purpose, ownership, funding, and what "Minister of Enjoyment" means in practice.</p></div>
-      <div class="step"><div class="k">02</div><h4>Send the roster corrections</h4><p>The title swap, the three names with no title, "Tai", and the "+1 Angelique" ambiguity.</p></div>
-      <div class="step"><div class="k">03</div><h4>Lock Ghana cities and dates</h4><p>Hotels, sponsors and event RSVPs there are all downstream of this one decision.</p></div>
-      <div class="step"><div class="k">04</div><h4>Set the budget and the paying client</h4><p>Sponsor pitches and vendor negotiations cannot meaningfully start without it.</p></div>
+      <div class="step"><div class="k">01</div><h4>Settle the tour name</h4><p>"West Africa Queens Tour" is a placeholder — needed before any external pitch document goes out.</p></div>
+      <div class="step"><div class="k">02</div><h4>Confirm Camille Thomas's disambiguation line</h4><p>Every bio, deck and press note needs "Miss Universe Curaçao" attached to her name to avoid the cellist mix-up.</p></div>
+      <div class="step"><div class="k">03</div><h4>Decide Benin, one way or the other</h4><p>Real country, real hotels, but no December-specific event and no confirmed ambassador programme with ANPT.</p></div>
+      <div class="step"><div class="k">04</div><h4>Set the budget and revenue mix</h4><p>Ten proposed streams; sponsor pitches can't start until which ones are live is decided.</p></div>
     </div>
 
     <div class="note">
-      <b>Running in parallel:</b> individual calls with each woman covering concept, availability and
-      terms · collecting official media kits · passports and visas as confirmations land ·
-      Olivia's local list — the Mother Africa organiser, Bassam beach status, sponsor outreach, and a
-      Côte d'Ivoire foundation partner · applying into the Ghana Tourism Authority partner process ·
-      confirming the Lagos NYE flagship for 2026 · deciding the content production model and sizing the crew.
+      <b>Running in parallel:</b> individual calls with each of the core ten covering concept,
+      availability and terms · collecting official media kits · passports and visas as confirmations
+      land · outreach to Sublime Côte d'Ivoire and Lagos State Tourism, Arts and Culture — both have
+      real, current sponsorship precedent · Ghana cities and dates · vetting the Benin DMC options
+      directly before committing to anything there · deciding the content production model.
     </div>
   </div>
 </section>
@@ -779,8 +951,8 @@ TEMPLATE = r"""<title>Detty December</title>
   <div class="wrap">
     <div class="eyebrow">The one thing to settle first</div>
     <h2>What is this trip actually for?</h2>
-    <p>Promotion and impact are the two pillars. Which of them leads — when a festival slot and a
-      foundation day fall on the same afternoon — is the decision everything else is built on.</p>
+    <p>Five objectives are named. Which one leads — when a festival slot, a government meeting and a
+      foundation visit compete for the same afternoon — is the decision everything else is built on.</p>
   </div>
 </div>
 
@@ -793,8 +965,10 @@ TEMPLATE = r"""<title>Detty December</title>
         <div class="ftr-line">30 Chichele Road, London, England &nbsp;·&nbsp; General@atoureconsulting.com &nbsp;·&nbsp; www.atoureconsulting.com</div>
       </div>
     </div>
-    <p>Working draft, compiled from public sources. {{NPHOTO}} of 14 photographs in place. Line-up is invited, not confirmed.</p>
-    <p>Follower figures are estimates, not analytics — replace with media-kit data before anything reaches a sponsor.</p>
+    <p>Working draft, compiled from public sources and the client's own tracking. {{NPHOTO}} of 18
+      photographs in place. Core and reserve line-up is proposed, not confirmed.</p>
+    <p>Follower figures for the core group come from the client's own September 2026 tracking sheet.
+      Engagement rate and audience demographics remain private — media kits only.</p>
   </div>
 </footer>
 
