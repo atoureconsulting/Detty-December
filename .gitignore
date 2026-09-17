@@ -18,3 +18,8 @@ deck/photos/_circles/
 deck/bbb-deck.html
 # Brand kit — pending a decision on publishing it in a public repo.
 brand/
+
+# Working budget/logistics workbook and the invitation pack now carry the
+# delegation's personal email addresses. This repository is PUBLIC.
+budget/*.xlsx
+outreach/
