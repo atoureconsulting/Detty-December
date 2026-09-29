@@ -2,7 +2,7 @@ const {chromium} = require('playwright');
 (async () => {
   const b = await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
   const p = await b.newPage({viewport:{width:1160,height:900}, deviceScaleFactor:2});
-  await p.goto('file://' + __dirname + '/bbb-deck-v11.html');
+  await p.goto('file://' + __dirname + '/bbb-deck-v12.html');
   await p.waitForLoadState('networkidle');
   await p.waitForTimeout(2500);
   const n = await p.locator('section.s').count();
@@ -24,7 +24,7 @@ const {chromium} = require('playwright');
           out.push(`p${no} CLIP <${el.className || el.tagName}> ${el.scrollHeight - el.clientHeight}px`);
       });
       // 2. text blocks overlapping each other
-      const leaves = [...s.querySelectorAll('p,h1,h2,li,blockquote,.lab,.attr,.cap,.sub,.fol > span,.pcard b,.pcard span,.pcard em,.dblk b,.dblk span,.oitem b,.oitem span,.onum,.figs5 em,.figs5 span,.tot li,.tot .big,.sfig b,.sfig span,.line span,.line i,.day b,.day span,.day em,.cband figcaption,.obar b,.obar span')]
+      const leaves = [...s.querySelectorAll('p,h1,h2,li,blockquote,.lab,.attr,.cap,.sub,.fol > span,.pcard b,.pcard span,.pcard em,.dblk b,.dblk span,.oitem b,.oitem span,.onum,.figs5 em,.figs5 span,.tot li,.tot .big,.sfig b,.sfig span,.line span,.line i,.day b,.day span,.day em,.cband figcaption,.obar b,.obar span,.mapcap,.leg b,.leg em,.leg span,.nx b,.nx span,.cats b,.cats span,.colophon p')]
         .filter(e => e.getBoundingClientRect().height > 0);
       for (let a = 0; a < leaves.length; a++) for (let c = a + 1; c < leaves.length; c++) {
         const A = leaves[a], B = leaves[c];
@@ -41,6 +41,6 @@ const {chromium} = require('playwright');
   console.log('slides:', n);
   console.log(issues.length ? issues.join('\n') : 'clean');
   for (let i = 0; i < n; i++)
-    await p.locator('section.s').nth(i).screenshot({path:`v11-${i+1}.png`});
+    await p.locator('section.s').nth(i).screenshot({path:`v12-${i+1}.png`});
   await b.close();
 })();

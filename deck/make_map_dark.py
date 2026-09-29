@@ -64,7 +64,8 @@ for n, col in TOUR.items():
 # the coastal corridor; the numbers and labels are set in the deck's own type
 STOPS = [("Lagos", 3.38, 6.52, "r"), ("Abidjan", -4.02, 5.35, "l"),
          ("Assinie", -3.28, 5.13, "d"), ("Accra", -0.19, 5.60, "d")]
-OPTIONAL = [("Ouidah", 2.09, 6.36, "u")]
+STOPS += [("Ouidah", 2.09, 6.36, "u")]
+OPTIONAL = []
 pos = {n: P(lo, la) for n, lo, la, _ in STOPS + OPTIONAL}
 
 corridor = ["Abidjan", "Assinie", "Accra", "Ouidah", "Lagos"]
