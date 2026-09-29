@@ -2,7 +2,7 @@ const {chromium} = require('playwright');
 (async () => {
   const b = await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
   const p = await b.newPage({viewport:{width:1160,height:900}, deviceScaleFactor:2});
-  await p.goto('file://' + __dirname + '/bbb-deck-v10.html');
+  await p.goto('file://' + __dirname + '/bbb-deck-v11.html');
   await p.waitForLoadState('networkidle');
   await p.waitForTimeout(2500);
   const n = await p.locator('section.s').count();
@@ -41,6 +41,6 @@ const {chromium} = require('playwright');
   console.log('slides:', n);
   console.log(issues.length ? issues.join('\n') : 'clean');
   for (let i = 0; i < n; i++)
-    await p.locator('section.s').nth(i).screenshot({path:`v10-${i+1}.png`});
+    await p.locator('section.s').nth(i).screenshot({path:`v11-${i+1}.png`});
   await b.close();
 })();
