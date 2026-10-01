@@ -24,3 +24,6 @@ brand/
 budget/*.xlsx
 outreach/
 deck/media/
+
+# Internal planning pack. Commercially sensitive; this repo is public.
+planning/
